@@ -13,9 +13,9 @@ import (
 //
 // Note: this only ever lists repos under the authenticated user's namespace;
 // PackageCloud has no API to enumerate an organization's repositories.
-func (a *App) ListRepositories(ctx context.Context, includeCollaborations bool) ([]*pc.Repository, error) {
-	return fetchAllPages(ctx, func(ctx context.Context, page int) ([]*pc.Repository, http.Header, error) {
-		req := &pc.RepositoriesIndexRequest{Page: pc.Int(page)}
+func (a *App) ListRepositories(ctx context.Context, includeCollaborations bool, opts ListOptions) ([]*pc.Repository, error) {
+	return fetchWindow(ctx, opts, func(ctx context.Context, page, perPage int) ([]*pc.Repository, http.Header, error) {
+		req := &pc.RepositoriesIndexRequest{Page: pc.Int(page), PerPage: pc.Int(perPage)}
 		if includeCollaborations {
 			req.IncludeCollaborations = pc.String("true")
 		}

@@ -31,12 +31,13 @@ Get your token at <https://packagecloud.io/api_token>.
 
 ```sh
 # Packages
-packagecloud distributions                        # list supported distributions
-packagecloud list <user/repo>                     # list all packages (concurrent pagination)
-packagecloud search <user/repo> -q QUERY -f deb   # search packages
+packagecloud distributions                                    # list supported distributions
+packagecloud list <user/repo>                                 # list all packages (concurrent pagination)
+packagecloud list <user/repo> --limit 20 --offset 40          # window results (fetches only needed pages)
+packagecloud search <user/repo> -q QUERY -f deb               # search packages
 packagecloud push <user/repo> ./dist/*.deb -d ubuntu/xenial   # multiple files (shell-expanded)
 packagecloud push <user/repo> ./*.deb --skip-duplicates --skip-errors
-packagecloud delete <user/repo> pkg.gem           # yank a package (.gem distro inferred)
+packagecloud delete <user/repo> pkg.gem                       # yank a package (.gem distro inferred)
 packagecloud promote <src> <dst> ubuntu/xenial pkg_1.0_amd64.deb
 packagecloud contents <user/repo> ./pkg.dsc -d ubuntu/xenial
 

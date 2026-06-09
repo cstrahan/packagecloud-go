@@ -205,7 +205,7 @@ Omit it for rubygems and single-version types to let the file extension pick a d
 }
 
 func newListCmd() *cobra.Command {
-	var perPage int
+	var perPage, limit, offset int
 	cmd := &cobra.Command{
 		Use:   "list <repository>",
 		Short: "List packages in a repository",
@@ -215,21 +215,30 @@ func newListCmd() *cobra.Command {
 			if err != nil {
 				return err
 			}
-			pkgs, err := app.ListPackages(cmd.Context(), args[0], perPage)
+			pkgs, err := app.ListPackages(cmd.Context(), args[0],
+				pcloud.ListOptions{PerPage: perPage, Limit: limit, Offset: offset})
 			if err != nil {
 				return err
 			}
 			return printPackageFragments(cmd, pkgs)
 		},
 	}
-	cmd.Flags().IntVar(&perPage, "per-page", 250, "results per page")
+	addListFlags(cmd, &perPage, &limit, &offset)
 	return cmd
+}
+
+// addListFlags registers the windowing flags shared by the list-returning
+// commands.
+func addListFlags(cmd *cobra.Command, perPage, limit, offset *int) {
+	cmd.Flags().IntVar(limit, "limit", 0, "max number of results to return (0 = all)")
+	cmd.Flags().IntVar(offset, "offset", 0, "number of results to skip from the start")
+	cmd.Flags().IntVar(perPage, "per-page", 250, "wire page size used to fetch results")
 }
 
 func newSearchCmd() *cobra.Command {
 	var (
 		query, dist, filter, arch string
-		perPage                   int
+		perPage, limit, offset    int
 	)
 	cmd := &cobra.Command{
 		Use:   "search <repository>",
@@ -240,13 +249,9 @@ func newSearchCmd() *cobra.Command {
 			if err != nil {
 				return err
 			}
-			pkgs, err := app.SearchPackages(cmd.Context(), args[0], pcloud.SearchParams{
-				Query:   query,
-				Dist:    dist,
-				Filter:  filter,
-				Arch:    arch,
-				PerPage: perPage,
-			})
+			pkgs, err := app.SearchPackages(cmd.Context(), args[0],
+				pcloud.SearchParams{Query: query, Dist: dist, Filter: filter, Arch: arch},
+				pcloud.ListOptions{PerPage: perPage, Limit: limit, Offset: offset})
 			if err != nil {
 				return err
 			}
@@ -257,7 +262,7 @@ func newSearchCmd() *cobra.Command {
 	cmd.Flags().StringVarP(&dist, "dist", "d", "", "filter by distribution (e.g. ubuntu, el/6)")
 	cmd.Flags().StringVarP(&filter, "filter", "f", "", "filter by package type (rpm, deb, gem, python, node)")
 	cmd.Flags().StringVarP(&arch, "arch", "a", "", "filter by architecture")
-	cmd.Flags().IntVar(&perPage, "per-page", 250, "results per page")
+	addListFlags(cmd, &perPage, &limit, &offset)
 	return cmd
 }
 

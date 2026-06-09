@@ -5,6 +5,8 @@ import (
 	"io"
 
 	"github.com/spf13/cobra"
+
+	"github.com/cstrahan/packagecloud-go/internal/pcloud"
 )
 
 // ---------------------------------------------------------------------------
@@ -16,6 +18,7 @@ func newRepoCmd() *cobra.Command {
 		Short: "Manage repositories",
 	}
 
+	var perPage, limit, offset int
 	list := &cobra.Command{
 		Use:   "list",
 		Short: "List repositories in your namespace",
@@ -26,7 +29,8 @@ func newRepoCmd() *cobra.Command {
 				return err
 			}
 			collaborations, _ := cmd.Flags().GetBool("include-collaborations")
-			repos, err := app.ListRepositories(cmd.Context(), collaborations)
+			repos, err := app.ListRepositories(cmd.Context(), collaborations,
+				pcloud.ListOptions{PerPage: perPage, Limit: limit, Offset: offset})
 			if err != nil {
 				return err
 			}
@@ -48,6 +52,7 @@ func newRepoCmd() *cobra.Command {
 		},
 	}
 	list.Flags().Bool("include-collaborations", false, "include repos you collaborate on")
+	addListFlags(list, &perPage, &limit, &offset)
 
 	create := &cobra.Command{
 		Use:   "create <name>",

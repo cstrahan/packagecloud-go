@@ -3,8 +3,9 @@ package pcloud
 import (
 	"context"
 	"errors"
-	"fmt"
 	"net/http"
+	"slices"
+	"strconv"
 	"sync"
 	"testing"
 
@@ -142,59 +143,167 @@ func TestHeaderInt(t *testing.T) {
 	}
 }
 
-// fetchAllPages should fetch every page, preserve page order in the flattened
-// result, and derive the page count from the Total / Per-Page headers.
-func TestFetchAllPagesOrderAndCompleteness(t *testing.T) {
-	const total, perPage = 25, 10 // => 3 pages: 10, 10, 5
-	var mu sync.Mutex
-	seen := map[int]bool{}
+// fakeBackend models a paginated server holding items [0, total) with a
+// per_page ceiling of serverMax. It records every (page, perPage) it's asked
+// for so tests can assert which pages were actually fetched.
+type fakeBackend struct {
+	total, serverMax int
+	mu               sync.Mutex
+	calls            [][2]int // (page, perPage)
+}
 
-	fetch := func(_ context.Context, page int) ([]int, http.Header, error) {
-		mu.Lock()
-		seen[page] = true
-		mu.Unlock()
-		h := http.Header{}
-		h.Set("Total", fmt.Sprint(total))
-		h.Set("Per-Page", fmt.Sprint(perPage))
-		start := (page - 1) * perPage
-		var items []int
-		for i := start; i < start+perPage && i < total; i++ {
-			items = append(items, i)
-		}
-		return items, h, nil
+func (b *fakeBackend) fetch(_ context.Context, page, perPage int) ([]int, http.Header, error) {
+	b.mu.Lock()
+	b.calls = append(b.calls, [2]int{page, perPage})
+	b.mu.Unlock()
+	eff := perPage
+	if b.serverMax > 0 && eff > b.serverMax {
+		eff = b.serverMax
 	}
+	h := http.Header{}
+	h.Set("Total", strconv.Itoa(b.total))
+	h.Set("Per-Page", strconv.Itoa(eff))
+	var items []int
+	for i := (page - 1) * eff; i < page*eff && i < b.total; i++ {
+		items = append(items, i)
+	}
+	return items, h, nil
+}
 
-	got, err := fetchAllPages(context.Background(), fetch)
-	if err != nil {
-		t.Fatal(err)
+func (b *fakeBackend) pagesFetched() map[int]bool {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+	m := map[int]bool{}
+	for _, c := range b.calls {
+		m[c[0]] = true
 	}
-	if len(got) != total {
-		t.Fatalf("len(got) = %d, want %d", len(got), total)
+	return m
+}
+
+// seq returns the slice [start, start+n).
+func seq(start, n int) []int {
+	out := make([]int, n)
+	for i := range out {
+		out[i] = start + i
 	}
-	for i, v := range got {
-		if v != i { // 0..24 in order
-			t.Fatalf("got[%d] = %d, want %d (ordering broken)", i, v, i)
-		}
+	return out
+}
+
+func TestFetchWindow(t *testing.T) {
+	cases := []struct {
+		name      string
+		total     int
+		opts      ListOptions
+		want      []int
+		wantPages []int // pages that MUST have been fetched (exact set)
+		serverMax int
+	}{
+		{
+			name:      "full listing in order",
+			total:     25,
+			opts:      ListOptions{PerPage: 10},
+			want:      seq(0, 25),
+			wantPages: []int{1, 2, 3},
+			serverMax: 250,
+		},
+		{
+			name:      "limit within first page fetches one page",
+			total:     100,
+			opts:      ListOptions{PerPage: 10, Limit: 3},
+			want:      seq(0, 3),
+			wantPages: []int{1},
+			serverMax: 250,
+		},
+		{
+			name:      "offset+limit spanning two pages",
+			total:     50,
+			opts:      ListOptions{PerPage: 10, Offset: 8, Limit: 5},
+			want:      seq(8, 5), // 8..12, on pages 1 and 2
+			wantPages: []int{1, 2},
+			serverMax: 250,
+		},
+		{
+			name:      "offset deep in listing skips earlier pages",
+			total:     50,
+			opts:      ListOptions{PerPage: 10, Offset: 22, Limit: 3},
+			want:      seq(22, 3), // 22..24, page 3 only
+			wantPages: []int{3},
+			serverMax: 250,
+		},
+		{
+			name:      "offset past end yields empty",
+			total:     10,
+			opts:      ListOptions{PerPage: 10, Offset: 99, Limit: 5},
+			want:      nil,
+			wantPages: []int{10}, // startPage computed from offset; returns empty
+			serverMax: 250,
+		},
+		{
+			name:      "per_page shrinks to the window",
+			total:     100,
+			opts:      ListOptions{PerPage: 250, Limit: 4},
+			want:      seq(0, 4),
+			wantPages: []int{1},
+			serverMax: 250,
+		},
 	}
-	for p := 1; p <= 3; p++ {
-		if !seen[p] {
-			t.Errorf("page %d was never fetched", p)
-		}
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			b := &fakeBackend{total: c.total, serverMax: c.serverMax}
+			got, err := fetchWindow(context.Background(), c.opts, b.fetch)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if !slices.Equal(got, c.want) {
+				t.Errorf("window = %v, want %v", got, c.want)
+			}
+			pages := b.pagesFetched()
+			if len(pages) != len(c.wantPages) {
+				t.Errorf("fetched pages %v, want exactly %v", keysOf(pages), c.wantPages)
+			}
+			for _, p := range c.wantPages {
+				if !pages[p] {
+					t.Errorf("expected page %d to be fetched; fetched %v", p, keysOf(pages))
+				}
+			}
+		})
 	}
 }
 
-// Without pagination headers, fetchAllPages returns just the first page.
-func TestFetchAllPagesNoHeaders(t *testing.T) {
-	calls := 0
-	fetch := func(_ context.Context, page int) ([]int, http.Header, error) {
-		calls++
-		return []int{1, 2, 3}, http.Header{}, nil
-	}
-	got, err := fetchAllPages(context.Background(), fetch)
+// When the server clamps per_page below what we requested, fetchWindow must
+// recompute pages against the effective size and still return the right items.
+func TestFetchWindowServerClamp(t *testing.T) {
+	b := &fakeBackend{total: 25, serverMax: 10} // we ask for 250, server caps at 10
+	got, err := fetchWindow(context.Background(), ListOptions{PerPage: 250}, b.fetch)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if len(got) != 3 || calls != 1 {
-		t.Fatalf("got %d items in %d calls, want 3 items in 1 call", len(got), calls)
+	if !slices.Equal(got, seq(0, 25)) {
+		t.Fatalf("window = %v, want 0..24", got)
 	}
+}
+
+// Header-less (unpaginated) responses return the single page, windowed.
+func TestFetchWindowNoHeaders(t *testing.T) {
+	calls := 0
+	fetch := func(_ context.Context, page, perPage int) ([]int, http.Header, error) {
+		calls++
+		return []int{0, 1, 2, 3, 4}, http.Header{}, nil
+	}
+	got, err := fetchWindow(context.Background(), ListOptions{Offset: 1, Limit: 2}, fetch)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !slices.Equal(got, []int{1, 2}) || calls != 1 {
+		t.Fatalf("got %v in %d calls, want [1 2] in 1 call", got, calls)
+	}
+}
+
+func keysOf(m map[int]bool) []int {
+	var out []int
+	for k := range m {
+		out = append(out, k)
+	}
+	slices.Sort(out)
+	return out
 }

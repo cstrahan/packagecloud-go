@@ -21,6 +21,22 @@ import (
 // concurrent pagination, matching the reference client.
 const maxParallelPages = 10
 
+// defaultPerPage is the wire page size used when the caller doesn't specify
+// one. It matches PackageCloud's Max-Per-Page so a full listing needs the
+// fewest requests.
+const defaultPerPage = 250
+
+// ListOptions controls windowing for the paginated list endpoints. The zero
+// value (Offset 0, Limit 0) fetches the entire listing.
+type ListOptions struct {
+	// PerPage is the requested wire page size; <=0 uses defaultPerPage.
+	PerPage int
+	// Offset is the number of items to skip from the start of the listing.
+	Offset int
+	// Limit caps the number of items returned; <=0 means no cap (all).
+	Limit int
+}
+
 // App wraps the generated SDK client with the higher-level conveniences the
 // CLI needs: a distributions cache + distro_version lookup, concurrent
 // pagination, and a raw HTTP path for the polymorphic delete endpoint.
@@ -185,18 +201,15 @@ func (a *App) resolveDistroVersionID(ctx context.Context, ext, distroVersion str
 	return &id, nil
 }
 
-// ListPackages returns every package in a repository, fetching pages
-// concurrently.
-func (a *App) ListPackages(ctx context.Context, repository string, perPage int) ([]*pc.PackageFragment, error) {
+// ListPackages returns the requested window of packages in a repository,
+// fetching only the overlapping pages (concurrently).
+func (a *App) ListPackages(ctx context.Context, repository string, opts ListOptions) ([]*pc.PackageFragment, error) {
 	user, repo, err := SplitRepo(repository)
 	if err != nil {
 		return nil, err
 	}
-	return fetchAllPages(ctx, func(ctx context.Context, page int) ([]*pc.PackageFragment, http.Header, error) {
-		req := &pc.PackagesAllRequest{UserID: user, Repo: repo, Page: pc.Int(page)}
-		if perPage > 0 {
-			req.PerPage = pc.Int(perPage)
-		}
+	return fetchWindow(ctx, opts, func(ctx context.Context, page, perPage int) ([]*pc.PackageFragment, http.Header, error) {
+		req := &pc.PackagesAllRequest{UserID: user, Repo: repo, Page: pc.Int(page), PerPage: pc.Int(perPage)}
 		resp, err := a.sdk.Packages.WithRawResponse.All(ctx, req)
 		if err != nil {
 			return nil, nil, err
@@ -208,21 +221,26 @@ func (a *App) ListPackages(ctx context.Context, repository string, perPage int) 
 // SearchParams holds the optional filters for SearchPackages. Empty fields
 // are omitted from the request.
 type SearchParams struct {
-	Query   string
-	Dist    string
-	Filter  string
-	Arch    string
-	PerPage int
+	Query  string
+	Dist   string
+	Filter string
+	Arch   string
 }
 
-// SearchPackages searches a repository, fetching pages concurrently.
-func (a *App) SearchPackages(ctx context.Context, repository string, params SearchParams) ([]*pc.PackageFragment, error) {
+// SearchPackages searches a repository, returning the requested window and
+// fetching only the overlapping pages (concurrently).
+func (a *App) SearchPackages(ctx context.Context, repository string, params SearchParams, opts ListOptions) ([]*pc.PackageFragment, error) {
 	user, repo, err := SplitRepo(repository)
 	if err != nil {
 		return nil, err
 	}
-	return fetchAllPages(ctx, func(ctx context.Context, page int) ([]*pc.PackageFragment, http.Header, error) {
-		req := &pc.PackagesSearchRequest{UserID: user, Repo: repo, Page: pc.Int(page)}
+	return fetchWindow(ctx, opts, func(ctx context.Context, page, perPage int) ([]*pc.PackageFragment, http.Header, error) {
+		req := &pc.PackagesSearchRequest{
+			UserID:  user,
+			Repo:    repo,
+			Page:    pc.Int(page),
+			PerPage: pc.String(strconv.Itoa(perPage)),
+		}
 		if params.Query != "" {
 			req.Q = pc.String(params.Query)
 		}
@@ -234,9 +252,6 @@ func (a *App) SearchPackages(ctx context.Context, repository string, params Sear
 		}
 		if params.Arch != "" {
 			req.Arch = pc.String(params.Arch)
-		}
-		if params.PerPage > 0 {
-			req.PerPage = pc.String(strconv.Itoa(params.PerPage))
 		}
 		resp, err := a.sdk.Packages.WithRawResponse.Search(ctx, req)
 		if err != nil {
@@ -353,26 +368,68 @@ func (a *App) PromotePackage(ctx context.Context, source, destination, distroVer
 	return a.sdk.Packages.Promote(ctx, req)
 }
 
-// fetchAllPages fetches page 1, reads PackageCloud's pagination headers
-// (Total / Per-Page), then fetches any remaining pages concurrently (up to
-// maxParallelPages at a time) and returns the items in page order. If the
-// headers are absent the first page is returned as-is.
-func fetchAllPages[T any](ctx context.Context, fetch func(ctx context.Context, page int) ([]T, http.Header, error)) ([]T, error) {
-	first, hdr, err := fetch(ctx, 1)
+// fetchWindow returns the [Offset, Offset+Limit) item window of a paginated
+// endpoint, fetching only the pages that overlap the window (concurrently, up
+// to maxParallelPages). It exploits PackageCloud's page/per_page query params
+// plus the Total/Per-Page response headers, so a small --limit doesn't pull
+// the entire listing. With Offset 0 and Limit <=0 it returns every page.
+//
+// The fetch callback receives the 1-based page index and the per_page to
+// request, and returns that page's items plus the response headers.
+func fetchWindow[T any](
+	ctx context.Context,
+	opts ListOptions,
+	fetch func(ctx context.Context, page, perPage int) ([]T, http.Header, error),
+) ([]T, error) {
+	perPage := opts.PerPage
+	if perPage <= 0 {
+		perPage = defaultPerPage
+	}
+	offset := max(opts.Offset, 0)
+	// When the whole window fits in less than a page, shrink per_page so we
+	// transfer only what we need (e.g. --limit 5 fetches 5 items, not 250).
+	if opts.Limit > 0 && offset+opts.Limit < perPage {
+		perPage = offset + opts.Limit
+	}
+
+	// Fetch the first page that can contain the window's start (1-based).
+	startPage := offset/perPage + 1
+	first, hdr, err := fetch(ctx, startPage, perPage)
 	if err != nil {
 		return nil, err
 	}
+
 	total := headerInt(hdr, "Total")
-	perPage := headerInt(hdr, "Per-Page")
-	if total <= 0 || perPage <= 0 {
-		return first, nil
+	effPerPage := headerInt(hdr, "Per-Page")
+
+	// Header-less / unpaginated response: we already hold the full result.
+	if total <= 0 || effPerPage <= 0 {
+		return windowSlice(first, offset, opts.Limit), nil
 	}
-	totalPages := (total + perPage - 1) / perPage
-	if totalPages <= 1 {
-		return first, nil
+	// If the server clamped per_page below what we assumed, our page math was
+	// against the wrong size — recompute against the effective size and refetch.
+	if effPerPage != perPage {
+		perPage = effPerPage
+		startPage = offset/perPage + 1
+		first, hdr, err = fetch(ctx, startPage, perPage)
+		if err != nil {
+			return nil, err
+		}
+		total = headerInt(hdr, "Total")
+	}
+	if offset >= total {
+		return []T{}, nil
 	}
 
-	pages := make([][]T, totalPages)
+	end := total // exclusive upper item bound we need
+	if opts.Limit > 0 && offset+opts.Limit < end {
+		end = offset + opts.Limit
+	}
+	totalPages := (total + perPage - 1) / perPage
+	endPage := min((end+perPage-1)/perPage, totalPages)
+
+	// Collect pages [startPage, endPage]; startPage is already fetched.
+	pages := make([][]T, endPage-startPage+1)
 	pages[0] = first
 
 	var (
@@ -381,13 +438,13 @@ func fetchAllPages[T any](ctx context.Context, fetch func(ctx context.Context, p
 		firstErr error
 	)
 	sem := make(chan struct{}, maxParallelPages)
-	for p := 2; p <= totalPages; p++ {
+	for p := startPage + 1; p <= endPage; p++ {
 		wg.Add(1)
 		sem <- struct{}{}
 		go func(page int) {
 			defer wg.Done()
 			defer func() { <-sem }()
-			items, _, err := fetch(ctx, page)
+			items, _, err := fetch(ctx, page, perPage)
 			mu.Lock()
 			defer mu.Unlock()
 			if err != nil {
@@ -396,7 +453,7 @@ func fetchAllPages[T any](ctx context.Context, fetch func(ctx context.Context, p
 				}
 				return
 			}
-			pages[page-1] = items
+			pages[page-startPage] = items
 		}(p)
 	}
 	wg.Wait()
@@ -404,11 +461,26 @@ func fetchAllPages[T any](ctx context.Context, fetch func(ctx context.Context, p
 		return nil, firstErr
 	}
 
-	var out []T
+	var collected []T
 	for _, pg := range pages {
-		out = append(out, pg...)
+		collected = append(collected, pg...)
 	}
-	return out, nil
+	// The first collected item sits at global index (startPage-1)*perPage.
+	return windowSlice(collected, offset-(startPage-1)*perPage, opts.Limit), nil
+}
+
+// windowSlice drops offset items from the front of items and caps the result
+// to limit (limit <=0 means no cap). Safe for offsets/limits past the end.
+func windowSlice[T any](items []T, offset, limit int) []T {
+	offset = max(offset, 0)
+	if offset >= len(items) {
+		return []T{}
+	}
+	items = items[offset:]
+	if limit > 0 && limit < len(items) {
+		items = items[:limit]
+	}
+	return items
 }
 
 // headerInt parses an integer-valued response header, returning 0 when the
