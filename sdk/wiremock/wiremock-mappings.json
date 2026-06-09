@@ -176,8 +176,8 @@
         }
       },
       "response": {
-        "status": 204,
-        "body": "{\n  \"key\": \"value\"\n}",
+        "status": 200,
+        "body": "\"\"",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -413,8 +413,8 @@
         }
       },
       "response": {
-        "status": 204,
-        "body": "{\n  \"key\": \"value\"\n}",
+        "status": 200,
+        "body": "\"\"",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -1580,8 +1580,8 @@
         }
       },
       "response": {
-        "status": 204,
-        "body": "{\n  \"key\": \"value\"\n}",
+        "status": 200,
+        "body": "\"\"",
         "headers": {
           "Content-Type": "application/json"
         }

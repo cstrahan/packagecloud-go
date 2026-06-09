@@ -46,12 +46,11 @@ func (a *App) DestroyMasterToken(ctx context.Context, repository, name string) e
 	if err != nil {
 		return err
 	}
-	_, err = a.sdk.MasterTokens.Destroy(ctx, &pc.MasterTokensDestroyRequest{
+	return a.sdk.MasterTokens.Destroy(ctx, &pc.MasterTokensDestroyRequest{
 		UserID: user,
 		Repo:   repo,
 		ID:     id,
 	})
-	return err
 }
 
 // ListReadTokens returns the read tokens nested under a named master token.
@@ -118,13 +117,12 @@ func (a *App) DestroyReadToken(ctx context.Context, repository, masterTokenName,
 	if readID == nil {
 		return fmt.Errorf("no read token named %q under master token %q", readTokenName, masterTokenName)
 	}
-	_, err = a.sdk.ReadTokens.Destroy(ctx, &pc.ReadTokensDestroyRequest{
+	return a.sdk.ReadTokens.Destroy(ctx, &pc.ReadTokensDestroyRequest{
 		UserID:      user,
 		Repo:        repo,
 		MasterToken: strconv.Itoa(masterID),
 		ID:          *readID,
 	})
-	return err
 }
 
 // resolveMasterToken finds a master token by name and returns it along with

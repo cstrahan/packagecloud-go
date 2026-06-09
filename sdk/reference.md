@@ -287,7 +287,7 @@ client.GpgKeys.Show(
 </dl>
 </details>
 
-<details><summary><code>client.GpgKeys.Destroy(UserID, Repo, Keyname) -> map[string]any</code></summary>
+<details><summary><code>client.GpgKeys.Destroy(UserID, Repo, Keyname) -> error</code></summary>
 <dl>
 <dd>
 
@@ -791,7 +791,7 @@ client.MasterTokens.Show(
 </dl>
 </details>
 
-<details><summary><code>client.MasterTokens.Destroy(UserID, Repo, ID) -> map[string]any</code></summary>
+<details><summary><code>client.MasterTokens.Destroy(UserID, Repo, ID) -> error</code></summary>
 <dl>
 <dd>
 
@@ -3507,7 +3507,7 @@ client.ReadTokens.Show(
 </dl>
 </details>
 
-<details><summary><code>client.ReadTokens.Destroy(UserID, Repo, MasterToken, ID) -> map[string]any</code></summary>
+<details><summary><code>client.ReadTokens.Destroy(UserID, Repo, MasterToken, ID) -> error</code></summary>
 <dl>
 <dd>
 

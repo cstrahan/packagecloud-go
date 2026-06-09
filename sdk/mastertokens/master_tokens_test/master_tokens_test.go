@@ -202,7 +202,7 @@ func TestMasterTokensDestroyWithWireMock(
 		Repo:   "repo",
 		ID:     1,
 	}
-	_, invocationErr := client.MasterTokens.Destroy(
+	invocationErr := client.MasterTokens.Destroy(
 		context.TODO(),
 		request,
 		option.WithHTTPHeader(

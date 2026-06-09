@@ -284,15 +284,20 @@ func (a *App) PushPackage(ctx context.Context, repository, packageFile string, o
 	return a.sdk.Packages.Create(ctx, req)
 }
 
-// IsDuplicateError reports whether err is the "filename has already been
-// taken" 422 the API returns when a package already exists — used to
-// implement `push --skip-duplicates`.
+// IsDuplicateError reports whether err is the 422 the API returns when a
+// package already exists — used to implement `push --skip-duplicates`.
+//
+// The message wording varies by package type / endpoint: the live API has
+// returned both "Validation failed: Full name already exists." (under a
+// "repository" key) and the Ruby client's "has already been taken" (under
+// "filename"), so we match either, case-insensitively.
 func IsDuplicateError(err error) bool {
 	var apiErr *core.APIError
 	if !errors.As(err, &apiErr) || apiErr.StatusCode != http.StatusUnprocessableEntity {
 		return false
 	}
-	return strings.Contains(apiErr.Error(), "already been taken")
+	msg := strings.ToLower(apiErr.Error())
+	return strings.Contains(msg, "already been taken") || strings.Contains(msg, "already exists")
 }
 
 // PackageContents inspects a .dsc source package, returning the files it

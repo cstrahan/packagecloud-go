@@ -18,6 +18,12 @@ func TestIsDuplicateError(t *testing.T) {
 	if !IsDuplicateError(dup) {
 		t.Error("expected duplicate 422 to be recognized")
 	}
+	// The wording the live API actually returns (caught in end-to-end testing).
+	dupLive := core.NewAPIError(http.StatusUnprocessableEntity, nil,
+		errors.New(`{"repository":["Validation failed: Full name already exists."]}`))
+	if !IsDuplicateError(dupLive) {
+		t.Error("expected live 'Full name already exists' 422 to be recognized")
+	}
 	// A 422 for a different reason is not a duplicate.
 	other := core.NewAPIError(http.StatusUnprocessableEntity, nil,
 		errors.New(`{"base":["something else"]}`))

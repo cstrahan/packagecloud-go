@@ -179,7 +179,7 @@ func TestGpgKeysDestroyWithWireMock(
 		Repo:    "repo",
 		Keyname: "keyname",
 	}
-	_, invocationErr := client.GpgKeys.Destroy(
+	invocationErr := client.GpgKeys.Destroy(
 		context.TODO(),
 		request,
 		option.WithHTTPHeader(

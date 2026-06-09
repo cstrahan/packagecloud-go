@@ -177,7 +177,7 @@ func (r *RawClient) Destroy(
 	ctx context.Context,
 	request *packagecloud.ReadTokensDestroyRequest,
 	opts ...option.RequestOption,
-) (*core.Response[map[string]any], error) {
+) (*core.Response[any], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -195,7 +195,6 @@ func (r *RawClient) Destroy(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response map[string]any
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -207,15 +206,14 @@ func (r *RawClient) Destroy(
 			BodyProperties:  options.BodyProperties,
 			QueryParameters: options.QueryParameters,
 			Client:          options.HTTPClient,
-			Response:        &response,
 		},
 	)
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[map[string]any]{
+	return &core.Response[any]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
-		Body:       response,
+		Body:       nil,
 	}, nil
 }

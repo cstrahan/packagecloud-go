@@ -179,7 +179,7 @@ func TestReadTokensDestroyWithWireMock(
 		MasterToken: "master_token",
 		ID:          1,
 	}
-	_, invocationErr := client.ReadTokens.Destroy(
+	invocationErr := client.ReadTokens.Destroy(
 		context.TODO(),
 		request,
 		option.WithHTTPHeader(

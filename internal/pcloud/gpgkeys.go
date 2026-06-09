@@ -47,10 +47,9 @@ func (a *App) DestroyGpgKey(ctx context.Context, repository, keyname string) err
 	if err != nil {
 		return err
 	}
-	_, err = a.sdk.GpgKeys.Destroy(ctx, &pc.GpgKeysDestroyRequest{
+	return a.sdk.GpgKeys.Destroy(ctx, &pc.GpgKeysDestroyRequest{
 		UserID:  user,
 		Repo:    repo,
 		Keyname: keyname,
 	})
-	return err
 }

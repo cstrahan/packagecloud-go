@@ -142,14 +142,14 @@ func (c *Client) Destroy(
 	ctx context.Context,
 	request *packagecloud.MasterTokensDestroyRequest,
 	opts ...option.RequestOption,
-) (map[string]any, error) {
-	response, err := c.WithRawResponse.Destroy(
+) error {
+	_, err := c.WithRawResponse.Destroy(
 		ctx,
 		request,
 		opts...,
 	)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	return response.Body, nil
+	return nil
 }
