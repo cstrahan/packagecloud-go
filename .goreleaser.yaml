@@ -1,0 +1,64 @@
+# GoReleaser configuration. Docs: https://goreleaser.com
+# Local dry run:  goreleaser release --snapshot --clean
+version: 2
+
+project_name: packagecloud
+
+builds:
+  - id: packagecloud
+    main: ./cmd/packagecloud
+    binary: packagecloud
+    # Pure-Go static binary (no libc dependency) — works on any Linux.
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+    goarch:
+      - amd64
+      - arm64
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w
+      - -X main.version={{ .Version }}
+      - -X main.commit={{ .FullCommit }}
+      - -X main.date={{ .CommitDate }}
+    mod_timestamp: "{{ .CommitTimestamp }}"
+
+archives:
+  - id: packagecloud
+    formats: [tar.gz]
+    name_template: >-
+      {{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}
+    files:
+      - README.md
+
+nfpms:
+  - id: packages
+    package_name: packagecloud
+    formats:
+      - deb
+      - rpm
+    maintainer: Charles Strahan <charles@cstrahan.com>
+    description: Command-line interface for the PackageCloud API.
+    homepage: https://github.com/cstrahan/packagecloud-go
+    bindir: /usr/bin
+    file_name_template: >-
+      {{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}
+
+checksum:
+  name_template: checksums.txt
+
+changelog:
+  use: github
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+
+release:
+  github:
+    owner: cstrahan
+    name: packagecloud-go

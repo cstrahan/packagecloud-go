@@ -20,6 +20,13 @@ var (
 	flagJSON   bool
 )
 
+// Build metadata, overridden at release time via -ldflags (see .goreleaser.yaml).
+var (
+	version = "dev"
+	commit  = "none"
+	date    = "unknown"
+)
+
 func main() {
 	if err := newRootCmd().Execute(); err != nil {
 		renderError(os.Stderr, err, flagJSON)
@@ -31,9 +38,11 @@ func newRootCmd() *cobra.Command {
 	root := &cobra.Command{
 		Use:           "packagecloud",
 		Short:         "Command-line interface for the PackageCloud API",
+		Version:       version,
 		SilenceUsage:  true,
 		SilenceErrors: true,
 	}
+	root.SetVersionTemplate("packagecloud {{.Version}} (commit " + commit + ", built " + date + ")\n")
 
 	root.PersistentFlags().StringVar(&flagToken, "token", "",
 		"API token (overrides PACKAGECLOUD_TOKEN and the config file)")
