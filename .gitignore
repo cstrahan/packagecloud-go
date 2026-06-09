@@ -1,0 +1,10 @@
+# Compiled CLI binary
+/packagecloud
+/dist/
+
+# Go test/coverage artifacts
+*.out
+
+# Fern local generation scratch
+**/.preview
+**/.definition

@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=https://schema.buildwithfern.dev/generators-yml.json
+api:
+  specs:
+    - openapi: ../openapi.yaml
+default-group: go
+groups:
+  go:
+    generators:
+      - name: fernapi/fern-go-sdk
+        version: 1.44.2
+        output:
+          location: local-file-system
+          path: ../sdk
+        config:
+          module:
+            path: github.com/cstrahan/packagecloud-go/sdk
+          packageName: packagecloud

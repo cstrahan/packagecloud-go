@@ -1,0 +1,14 @@
+{
+  "cliVersion": "5.45.3",
+  "generatorName": "fernapi/fern-go-sdk",
+  "generatorVersion": "1.44.2",
+  "generatorConfig": {
+    "module": {
+      "path": "github.com/cstrahan/packagecloud-go/sdk"
+    },
+    "packageName": "packagecloud"
+  },
+  "originGitCommitIsDirty": true,
+  "invokedBy": "ci",
+  "ciProvider": "unknown"
+}
