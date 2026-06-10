@@ -6,12 +6,49 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strings"
 
 	"github.com/spf13/cobra"
 
 	"github.com/cstrahan/packagecloud-go/internal/pcloud"
 	pc "github.com/cstrahan/packagecloud-go/sdk"
 )
+
+// exactArgs builds a positional-args validator for a fixed set of named
+// arguments. On mismatch it names what's missing or extra — e.g. "missing
+// required argument: <repository>" — instead of cobra's default
+// "accepts 1 arg(s), received 0".
+func exactArgs(names ...string) cobra.PositionalArgs {
+	return argChecker(names, false)
+}
+
+// minArgs is like exactArgs but the final named argument is variadic (one or
+// more), for commands like `push <repository> <package_file>...`.
+func minArgs(names ...string) cobra.PositionalArgs {
+	return argChecker(names, true)
+}
+
+func argChecker(names []string, variadic bool) cobra.PositionalArgs {
+	return func(_ *cobra.Command, args []string) error {
+		if len(args) < len(names) {
+			missing := names[len(args):]
+			return fmt.Errorf("missing required argument(s): %s", strings.Join(angled(missing), " "))
+		}
+		if !variadic && len(args) > len(names) {
+			return fmt.Errorf("unexpected argument(s): %s", strings.Join(args[len(names):], " "))
+		}
+		return nil
+	}
+}
+
+// angled wraps each name in <> for display in error messages.
+func angled(names []string) []string {
+	out := make([]string, len(names))
+	for i, n := range names {
+		out[i] = "<" + n + ">"
+	}
+	return out
+}
 
 // global flags shared by every subcommand.
 var (
@@ -36,11 +73,14 @@ func main() {
 
 func newRootCmd() *cobra.Command {
 	root := &cobra.Command{
-		Use:           "packagecloud",
-		Short:         "Command-line interface for the PackageCloud API",
-		Version:       version,
-		SilenceUsage:  true,
+		Use:     "packagecloud",
+		Short:   "Command-line interface for the PackageCloud API",
+		Version: version,
+		// We print errors ourselves (main → renderError, JSON-aware). Usage is
+		// silenced on misuse too: the named-argument error says what's wrong,
+		// and `--help` is there for the full usage when the user wants it.
 		SilenceErrors: true,
+		SilenceUsage:  true,
 	}
 	root.SetVersionTemplate("packagecloud {{.Version}} (commit " + commit + ", built " + date + ")\n")
 
@@ -141,7 +181,7 @@ use your shell's glob expansion to push many at once (e.g. "dist/*.deb").
   - distro/version_number (e.g. ubuntu/16.04)
   - a single-version-type shortcut (e.g. python, java) or package_type (e.g. py, jar)
 Omit it for rubygems and single-version types to let the file extension pick a default.`,
-		Args: cobra.MinimumNArgs(2),
+		Args: minArgs("repository", "package_file"),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			app, err := newApp()
 			if err != nil {
@@ -209,7 +249,7 @@ func newListCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list <repository>",
 		Short: "List packages in a repository",
-		Args:  cobra.ExactArgs(1),
+		Args:  exactArgs("repository"),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			app, err := newApp()
 			if err != nil {
@@ -245,7 +285,7 @@ func newSearchCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "search <repository>",
 		Short: "Search for packages in a repository",
-		Args:  cobra.ExactArgs(1),
+		Args:  exactArgs("repository"),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			app, err := newApp()
 			if err != nil {
@@ -282,7 +322,7 @@ Omit it for .gem files (defaults to "gems"). Otherwise:
   - node:        node/1
   - anyfile:     anyfile/1
   - java:        java/maven2/<groupId>`,
-		Args: cobra.ExactArgs(2),
+		Args: exactArgs("repository", "filename"),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			app, err := newApp()
 			if err != nil {
@@ -307,7 +347,7 @@ func newPromoteCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "promote <source> <destination> <distro/version> <filename>",
 		Short: "Promote (move) a package between repositories",
-		Args:  cobra.ExactArgs(4),
+		Args:  exactArgs("source", "destination", "distro/version", "filename"),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			app, err := newApp()
 			if err != nil {
@@ -334,7 +374,7 @@ func newContentsCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "contents <repository> <package_file>",
 		Short: "Inspect a Debian source package (.dsc) — list referenced files",
-		Args:  cobra.ExactArgs(2),
+		Args:  exactArgs("repository", "package_file"),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			app, err := newApp()
 			if err != nil {

@@ -57,7 +57,7 @@ func newRepoCmd() *cobra.Command {
 	create := &cobra.Command{
 		Use:   "create <name>",
 		Short: "Create a repository (bare name, or user/repo)",
-		Args:  cobra.ExactArgs(1),
+		Args:  exactArgs("name"),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			app, err := newApp()
 			if err != nil {
@@ -76,7 +76,7 @@ func newRepoCmd() *cobra.Command {
 	show := &cobra.Command{
 		Use:   "show <user/repo>",
 		Short: "Show a repository",
-		Args:  cobra.ExactArgs(1),
+		Args:  exactArgs("user/repo"),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			app, err := newApp()
 			if err != nil {
@@ -117,7 +117,7 @@ func newGpgKeyCmd() *cobra.Command {
 	list := &cobra.Command{
 		Use:   "list <user/repo>",
 		Short: "List GPG keys for a repository",
-		Args:  cobra.ExactArgs(1),
+		Args:  exactArgs("user/repo"),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			app, err := newApp()
 			if err != nil {
@@ -140,7 +140,7 @@ func newGpgKeyCmd() *cobra.Command {
 	create := &cobra.Command{
 		Use:   "create <user/repo> <path/to/key>",
 		Short: "Upload a package-signing GPG key",
-		Args:  cobra.ExactArgs(2),
+		Args:  exactArgs("user/repo", "path/to/key"),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			app, err := newApp()
 			if err != nil {
@@ -157,7 +157,7 @@ func newGpgKeyCmd() *cobra.Command {
 	destroy := &cobra.Command{
 		Use:   "destroy <user/repo> <keyname>",
 		Short: "Delete a package-signing GPG key",
-		Args:  cobra.ExactArgs(2),
+		Args:  exactArgs("user/repo", "keyname"),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			app, err := newApp()
 			if err != nil {
@@ -189,7 +189,7 @@ func newMasterTokenCmd() *cobra.Command {
 	list := &cobra.Command{
 		Use:   "list <user/repo>",
 		Short: "List master tokens (with their read tokens)",
-		Args:  cobra.ExactArgs(1),
+		Args:  exactArgs("user/repo"),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			app, err := newApp()
 			if err != nil {
@@ -214,7 +214,7 @@ func newMasterTokenCmd() *cobra.Command {
 	create := &cobra.Command{
 		Use:   "create <user/repo> <name>",
 		Short: "Create a master token",
-		Args:  cobra.ExactArgs(2),
+		Args:  exactArgs("user/repo", "name"),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			app, err := newApp()
 			if err != nil {
@@ -231,7 +231,7 @@ func newMasterTokenCmd() *cobra.Command {
 	destroy := &cobra.Command{
 		Use:   "destroy <user/repo> <name>",
 		Short: "Destroy a master token by name",
-		Args:  cobra.ExactArgs(2),
+		Args:  exactArgs("user/repo", "name"),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			app, err := newApp()
 			if err != nil {
@@ -263,7 +263,7 @@ func newReadTokenCmd() *cobra.Command {
 	list := &cobra.Command{
 		Use:   "list <user/repo> <master-token-name>",
 		Short: "List read tokens under a master token",
-		Args:  cobra.ExactArgs(2),
+		Args:  exactArgs("user/repo", "master-token-name"),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			app, err := newApp()
 			if err != nil {
@@ -285,7 +285,7 @@ func newReadTokenCmd() *cobra.Command {
 	create := &cobra.Command{
 		Use:   "create <user/repo> <master-token-name> <name>",
 		Short: "Create a read token under a master token",
-		Args:  cobra.ExactArgs(3),
+		Args:  exactArgs("user/repo", "master-token-name", "name"),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			app, err := newApp()
 			if err != nil {
@@ -302,7 +302,7 @@ func newReadTokenCmd() *cobra.Command {
 	destroy := &cobra.Command{
 		Use:   "destroy <user/repo> <master-token-name> <read-token-name>",
 		Short: "Destroy a read token under a master token",
-		Args:  cobra.ExactArgs(3),
+		Args:  exactArgs("user/repo", "master-token-name", "read-token-name"),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			app, err := newApp()
 			if err != nil {
