@@ -38,6 +38,10 @@ packagecloud list <user/repo> --concurrency 4                 # cap simultaneous
 packagecloud search <user/repo> -q QUERY -f deb               # search packages
 packagecloud push <user/repo> ./dist/*.deb -d ubuntu/xenial   # multiple files (shell-expanded)
 packagecloud push <user/repo> ./*.deb --skip-duplicates --skip-errors
+packagecloud download <user/repo> pkg_1.0_amd64.deb -d ubuntu/xenial   # → ./pkg_1.0_amd64.deb
+packagecloud download <user/repo> pkg.gem --output-dir /tmp            # into a directory, keep name
+packagecloud download <user/repo> pkg.gem -o /tmp/x.gem               # exact path ("-" = stdout)
+# download shows a progress bar on stderr when stderr is a terminal (suppressed when piped or --json)
 packagecloud delete <user/repo> pkg.gem                       # yank a package (.gem distro inferred)
 packagecloud promote <src> <dst> ubuntu/xenial pkg_1.0_amd64.deb
 packagecloud contents <user/repo> ./pkg.dsc -d ubuntu/xenial
