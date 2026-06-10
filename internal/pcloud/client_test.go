@@ -7,7 +7,9 @@ import (
 	"slices"
 	"strconv"
 	"sync"
+	"sync/atomic"
 	"testing"
+	"time"
 
 	pc "github.com/cstrahan/packagecloud-go/sdk"
 	"github.com/cstrahan/packagecloud-go/sdk/core"
@@ -280,6 +282,41 @@ func TestFetchWindowServerClamp(t *testing.T) {
 	}
 	if !slices.Equal(got, seq(0, 25)) {
 		t.Fatalf("window = %v, want 0..24", got)
+	}
+}
+
+// fetchWindow must never run more than opts.Concurrency fetches at once.
+func TestFetchWindowConcurrencyCap(t *testing.T) {
+	const total, perPage, maxConc = 100, 10, 3 // 10 pages, cap 3 in flight
+	var inFlight, maxSeen atomic.Int32
+	fetch := func(_ context.Context, page, _ int) ([]int, http.Header, error) {
+		n := inFlight.Add(1)
+		for { // record the high-water mark
+			m := maxSeen.Load()
+			if n <= m || maxSeen.CompareAndSwap(m, n) {
+				break
+			}
+		}
+		time.Sleep(5 * time.Millisecond) // hold the slot so overlap can build up
+		inFlight.Add(-1)
+		h := http.Header{}
+		h.Set("Total", strconv.Itoa(total))
+		h.Set("Per-Page", strconv.Itoa(perPage))
+		var items []int
+		for i := (page - 1) * perPage; i < page*perPage && i < total; i++ {
+			items = append(items, i)
+		}
+		return items, h, nil
+	}
+	got, err := fetchWindow(context.Background(), ListOptions{PerPage: perPage, Concurrency: maxConc}, fetch)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(got) != total {
+		t.Fatalf("got %d items, want %d", len(got), total)
+	}
+	if m := maxSeen.Load(); m > maxConc {
+		t.Errorf("max concurrent fetches = %d, want <= %d", m, maxConc)
 	}
 }
 

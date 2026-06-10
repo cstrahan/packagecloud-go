@@ -34,6 +34,7 @@ Get your token at <https://packagecloud.io/api_token>.
 packagecloud distributions                                    # list supported distributions
 packagecloud list <user/repo>                                 # list all packages (concurrent pagination)
 packagecloud list <user/repo> --limit 20 --offset 40          # window results (fetches only needed pages)
+packagecloud list <user/repo> --concurrency 4                 # cap simultaneous page requests (default 10)
 packagecloud search <user/repo> -q QUERY -f deb               # search packages
 packagecloud push <user/repo> ./dist/*.deb -d ubuntu/xenial   # multiple files (shell-expanded)
 packagecloud push <user/repo> ./*.deb --skip-duplicates --skip-errors

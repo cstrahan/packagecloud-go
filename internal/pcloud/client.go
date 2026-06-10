@@ -17,9 +17,9 @@ import (
 	"github.com/cstrahan/packagecloud-go/sdk/option"
 )
 
-// maxParallelPages caps the number of in-flight page requests during
-// concurrent pagination, matching the reference client.
-const maxParallelPages = 10
+// DefaultConcurrency is the default cap on in-flight page requests during
+// concurrent pagination.
+const DefaultConcurrency = 10
 
 // defaultPerPage is the wire page size used when the caller doesn't specify
 // one. It matches PackageCloud's Max-Per-Page so a full listing needs the
@@ -35,6 +35,9 @@ type ListOptions struct {
 	Offset int
 	// Limit caps the number of items returned; <=0 means no cap (all).
 	Limit int
+	// Concurrency caps the number of in-flight page requests; <=0 uses
+	// DefaultConcurrency.
+	Concurrency int
 }
 
 // App wraps the generated SDK client with the higher-level conveniences the
@@ -370,7 +373,7 @@ func (a *App) PromotePackage(ctx context.Context, source, destination, distroVer
 
 // fetchWindow returns the [Offset, Offset+Limit) item window of a paginated
 // endpoint, fetching only the pages that overlap the window (concurrently, up
-// to maxParallelPages). It exploits PackageCloud's page/per_page query params
+// to opts.Concurrency). It exploits PackageCloud's page/per_page query params
 // plus the Total/Per-Page response headers, so a small --limit doesn't pull
 // the entire listing. With Offset 0 and Limit <=0 it returns every page.
 //
@@ -437,7 +440,11 @@ func fetchWindow[T any](
 		mu       sync.Mutex
 		firstErr error
 	)
-	sem := make(chan struct{}, maxParallelPages)
+	concurrency := opts.Concurrency
+	if concurrency <= 0 {
+		concurrency = DefaultConcurrency
+	}
+	sem := make(chan struct{}, concurrency)
 	for p := startPage + 1; p <= endPage; p++ {
 		wg.Add(1)
 		sem <- struct{}{}

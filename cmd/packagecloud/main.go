@@ -205,7 +205,7 @@ Omit it for rubygems and single-version types to let the file extension pick a d
 }
 
 func newListCmd() *cobra.Command {
-	var perPage, limit, offset int
+	var perPage, limit, offset, concurrency int
 	cmd := &cobra.Command{
 		Use:   "list <repository>",
 		Short: "List packages in a repository",
@@ -216,29 +216,31 @@ func newListCmd() *cobra.Command {
 				return err
 			}
 			pkgs, err := app.ListPackages(cmd.Context(), args[0],
-				pcloud.ListOptions{PerPage: perPage, Limit: limit, Offset: offset})
+				pcloud.ListOptions{PerPage: perPage, Limit: limit, Offset: offset, Concurrency: concurrency})
 			if err != nil {
 				return err
 			}
 			return printPackageFragments(cmd, pkgs)
 		},
 	}
-	addListFlags(cmd, &perPage, &limit, &offset)
+	addListFlags(cmd, &perPage, &limit, &offset, &concurrency)
 	return cmd
 }
 
 // addListFlags registers the windowing flags shared by the list-returning
 // commands.
-func addListFlags(cmd *cobra.Command, perPage, limit, offset *int) {
+func addListFlags(cmd *cobra.Command, perPage, limit, offset, concurrency *int) {
 	cmd.Flags().IntVar(limit, "limit", 0, "max number of results to return (0 = all)")
 	cmd.Flags().IntVar(offset, "offset", 0, "number of results to skip from the start")
 	cmd.Flags().IntVar(perPage, "per-page", 250, "wire page size used to fetch results")
+	cmd.Flags().IntVar(concurrency, "concurrency", pcloud.DefaultConcurrency,
+		"max concurrent page requests")
 }
 
 func newSearchCmd() *cobra.Command {
 	var (
-		query, dist, filter, arch string
-		perPage, limit, offset    int
+		query, dist, filter, arch           string
+		perPage, limit, offset, concurrency int
 	)
 	cmd := &cobra.Command{
 		Use:   "search <repository>",
@@ -251,7 +253,7 @@ func newSearchCmd() *cobra.Command {
 			}
 			pkgs, err := app.SearchPackages(cmd.Context(), args[0],
 				pcloud.SearchParams{Query: query, Dist: dist, Filter: filter, Arch: arch},
-				pcloud.ListOptions{PerPage: perPage, Limit: limit, Offset: offset})
+				pcloud.ListOptions{PerPage: perPage, Limit: limit, Offset: offset, Concurrency: concurrency})
 			if err != nil {
 				return err
 			}
@@ -262,7 +264,7 @@ func newSearchCmd() *cobra.Command {
 	cmd.Flags().StringVarP(&dist, "dist", "d", "", "filter by distribution (e.g. ubuntu, el/6)")
 	cmd.Flags().StringVarP(&filter, "filter", "f", "", "filter by package type (rpm, deb, gem, python, node)")
 	cmd.Flags().StringVarP(&arch, "arch", "a", "", "filter by architecture")
-	addListFlags(cmd, &perPage, &limit, &offset)
+	addListFlags(cmd, &perPage, &limit, &offset, &concurrency)
 	return cmd
 }
 
