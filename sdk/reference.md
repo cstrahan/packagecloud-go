@@ -7250,3 +7250,374 @@ client.APITokens.GetToken(
 </dl>
 </details>
 
+## install
+<details><summary><code>client.Install.Token(UserID, Repo, request) -> string</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create — or idempotently reuse — a read token for installing packages from this repository, returning the bare token value as plain text. The `name` field is a unique identifier for the consuming system; the same name always returns the same read token. Used by the npm, gem, and pip setup snippets.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &packagecloud.InstallTokenRequest{
+        UserID: "user_id",
+        Repo: "repo",
+        Name: "name",
+    }
+client.Install.Token(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**userID:** `string` — The username the repository belongs to.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**repo:** `string` — The name of the repository.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**name:** `string` — Unique identifier; the read token is created/reused under this name.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Install.GpgKeyURL(UserID, Repo) -> string</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Return a URL (with an embedded read token) to this repository's GPG signing key, as plain text. Used by the deb setup snippet to import the repository key.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &packagecloud.InstallGpgKeyURLRequest{
+        UserID: "user_id",
+        Repo: "repo",
+        Dist: "dist",
+        Name: "name",
+        Os: "os",
+    }
+client.Install.GpgKeyURL(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**userID:** `string` — The username the repository belongs to.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**repo:** `string` — The name of the repository.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**dist:** `string` — Distribution version, e.g. `precise`, `8`, `13.2`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**name:** `string` — A unique identifier for the consuming system; a read token created/reused under this name is embedded in the output.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**os:** `string` — Target distribution, e.g. `ubuntu`, `el`, `opensuse`.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Install.ConfigFileList(UserID, Repo) -> string</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Return an apt `sources.list` fragment for this repository (with an embedded read token); the server sends it as `Content-Type: text/apt_source_list`. Used by the deb setup snippet.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &packagecloud.InstallConfigFileListRequest{
+        UserID: "user_id",
+        Repo: "repo",
+        Dist: "dist",
+        Name: "name",
+        Os: "os",
+    }
+client.Install.ConfigFileList(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**userID:** `string` — The username the repository belongs to.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**repo:** `string` — The name of the repository.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**dist:** `string` — Distribution version, e.g. `precise`, `8`, `13.2`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**name:** `string` — A unique identifier for the consuming system; a read token created/reused under this name is embedded in the output.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**os:** `string` — Target distribution, e.g. `ubuntu`, `el`, `opensuse`.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Install.ConfigFileRepo(UserID, Repo) -> string</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Return a yum/zypper `.repo` fragment for this repository (with an embedded read token); the server sends it as `Content-Type: text/repo`. Used by the rpm and zypper setup snippets.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &packagecloud.InstallConfigFileRepoRequest{
+        UserID: "user_id",
+        Repo: "repo",
+        Dist: "dist",
+        Name: "name",
+        Os: "os",
+    }
+client.Install.ConfigFileRepo(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**userID:** `string` — The username the repository belongs to.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**repo:** `string` — The name of the repository.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**dist:** `string` — Distribution version, e.g. `precise`, `8`, `13.2`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**name:** `string` — A unique identifier for the consuming system; a read token created/reused under this name is embedded in the output.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**os:** `string` — Target distribution, e.g. `ubuntu`, `el`, `opensuse`.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+

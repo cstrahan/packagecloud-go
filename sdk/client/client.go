@@ -7,6 +7,7 @@ import (
 	core "github.com/cstrahan/packagecloud-go/sdk/core"
 	distributions "github.com/cstrahan/packagecloud-go/sdk/distributions"
 	gpgkeys "github.com/cstrahan/packagecloud-go/sdk/gpgkeys"
+	install "github.com/cstrahan/packagecloud-go/sdk/install"
 	internal "github.com/cstrahan/packagecloud-go/sdk/internal"
 	licenses "github.com/cstrahan/packagecloud-go/sdk/licenses"
 	mastertokens "github.com/cstrahan/packagecloud-go/sdk/mastertokens"
@@ -27,6 +28,7 @@ type Client struct {
 	Repositories  *repositories.Client
 	Stats         *stats.Client
 	APITokens     *apitokens.Client
+	Install       *install.Client
 
 	options *core.RequestOptions
 	baseURL string
@@ -45,6 +47,7 @@ func NewClient(opts ...option.RequestOption) *Client {
 		Repositories:  repositories.NewClient(options),
 		Stats:         stats.NewClient(options),
 		APITokens:     apitokens.NewClient(options),
+		Install:       install.NewClient(options),
 		options:       options,
 		baseURL:       options.BaseURL,
 		caller: internal.NewCaller(

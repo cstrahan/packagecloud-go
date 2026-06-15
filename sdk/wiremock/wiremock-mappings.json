@@ -2754,9 +2754,198 @@
         }
       },
       "postServeActions": []
+    },
+    {
+      "id": "1c48ac54-9ec9-4229-97a7-bd2dd96e137c",
+      "name": "create read token - default",
+      "request": {
+        "urlPathTemplate": "/install/repositories/{user_id}/{repo}/tokens.text",
+        "method": "POST",
+        "headers": {
+          "Authorization": {
+            "equalTo": "Basic dGVzdC11c2VybmFtZTp0ZXN0LXBhc3N3b3Jk"
+          }
+        },
+        "pathParameters": {
+          "user_id": {
+            "equalTo": "user_id"
+          },
+          "repo": {
+            "equalTo": "repo"
+          }
+        }
+      },
+      "response": {
+        "status": 201,
+        "body": "\"string\"",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "1c48ac54-9ec9-4229-97a7-bd2dd96e137c",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      }
+    },
+    {
+      "id": "834bdc35-2855-4247-ad1f-a52ce6cf02eb",
+      "name": "gpg key url - default",
+      "request": {
+        "urlPathTemplate": "/install/repositories/{user_id}/{repo}/gpg_key_url.list",
+        "method": "GET",
+        "headers": {
+          "Authorization": {
+            "equalTo": "Basic dGVzdC11c2VybmFtZTp0ZXN0LXBhc3N3b3Jk"
+          }
+        },
+        "pathParameters": {
+          "user_id": {
+            "equalTo": "user_id"
+          },
+          "repo": {
+            "equalTo": "repo"
+          }
+        },
+        "queryParameters": {
+          "dist": {
+            "equalTo": "dist"
+          },
+          "name": {
+            "equalTo": "name"
+          },
+          "os": {
+            "equalTo": "os"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "\"string\"",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "834bdc35-2855-4247-ad1f-a52ce6cf02eb",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      }
+    },
+    {
+      "id": "db5f9f8b-474b-45f0-bef0-14fffbc6c663",
+      "name": "apt config - default",
+      "request": {
+        "urlPathTemplate": "/install/repositories/{user_id}/{repo}/config_file.list",
+        "method": "GET",
+        "headers": {
+          "Authorization": {
+            "equalTo": "Basic dGVzdC11c2VybmFtZTp0ZXN0LXBhc3N3b3Jk"
+          }
+        },
+        "pathParameters": {
+          "user_id": {
+            "equalTo": "user_id"
+          },
+          "repo": {
+            "equalTo": "repo"
+          }
+        },
+        "queryParameters": {
+          "dist": {
+            "equalTo": "dist"
+          },
+          "name": {
+            "equalTo": "name"
+          },
+          "os": {
+            "equalTo": "os"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "\"string\"",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "db5f9f8b-474b-45f0-bef0-14fffbc6c663",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      }
+    },
+    {
+      "id": "d9631b2a-cd7c-4680-94f5-d41b4d59fb67",
+      "name": "yum/zypper config - default",
+      "request": {
+        "urlPathTemplate": "/install/repositories/{user_id}/{repo}/config_file.repo",
+        "method": "GET",
+        "headers": {
+          "Authorization": {
+            "equalTo": "Basic dGVzdC11c2VybmFtZTp0ZXN0LXBhc3N3b3Jk"
+          }
+        },
+        "pathParameters": {
+          "user_id": {
+            "equalTo": "user_id"
+          },
+          "repo": {
+            "equalTo": "repo"
+          }
+        },
+        "queryParameters": {
+          "dist": {
+            "equalTo": "dist"
+          },
+          "name": {
+            "equalTo": "name"
+          },
+          "os": {
+            "equalTo": "os"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "\"string\"",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "d9631b2a-cd7c-4680-94f5-d41b4d59fb67",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      }
     }
   ],
   "meta": {
-    "total": 63
+    "total": 67
   }
 }
