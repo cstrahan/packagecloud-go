@@ -85,6 +85,23 @@ func (c *Client) ConfigFileList(
 	return response.Body, nil
 }
 
+// Return the netrc-style credentials line for `/etc/apt/auth.conf.d/` — `machine packagecloud.io/<user>/<repo>/ login <read-token> password <ignored>` — which lets modern apt (>= 1.1) keep the token out of the `.list` file (paired with the token-less, `signed-by=` form of `config_file.list`).
+func (c *Client) AptAuthConf(
+	ctx context.Context,
+	request *packagecloud.InstallAptAuthConfRequest,
+	opts ...option.RequestOption,
+) (string, error) {
+	response, err := c.WithRawResponse.AptAuthConf(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return "", err
+	}
+	return response.Body, nil
+}
+
 // Return a yum/zypper `.repo` fragment for this repository (with an embedded read token); the server sends it as `Content-Type: text/repo`. Used by the rpm and zypper setup snippets.
 func (c *Client) ConfigFileRepo(
 	ctx context.Context,
@@ -92,6 +109,78 @@ func (c *Client) ConfigFileRepo(
 	opts ...option.RequestOption,
 ) (string, error) {
 	response, err := c.WithRawResponse.ConfigFileRepo(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return "", err
+	}
+	return response.Body, nil
+}
+
+// Return an Alpine `apk` repository line for this repository (with an embedded read token), to append to `/etc/apk/repositories`; the server sends it as `Content-Type: application/x-sh`. The alpine setup script's apk counterpart to `config_file.list`. Use `os=alpine` and `dist=v<major>.<minor>`.
+func (c *Client) ConfigFileAlpine(
+	ctx context.Context,
+	request *packagecloud.InstallConfigFileAlpineRequest,
+	opts ...option.RequestOption,
+) (string, error) {
+	response, err := c.WithRawResponse.ConfigFileAlpine(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return "", err
+	}
+	return response.Body, nil
+}
+
+// Return a URL (with an embedded read token) to this repository's Alpine **RSA** signing key, as plain text, for `/etc/apk/keys`. The alpine counterpart to `gpg_key_url.list` (Alpine signs indexes with RSA, not GPG). Use `os=alpine` and `dist=v<major>.<minor>`.
+func (c *Client) RsaKeyURLAlpine(
+	ctx context.Context,
+	request *packagecloud.InstallRsaKeyURLAlpineRequest,
+	opts ...option.RequestOption,
+) (string, error) {
+	response, err := c.WithRawResponse.RsaKeyURLAlpine(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return "", err
+	}
+	return response.Body, nil
+}
+
+// Return a self-contained bash setup script for the given package manager, served as `Content-Type: application/x-sh`. Pipe it to a shell — `sudo bash` for the OS package managers (they write to system paths), plain `bash` for the language ones — e.g.
+//
+// ```
+// curl -s https://<master-token>:@packagecloud.io/install/repositories/{user_id}/{repo}/script.deb.sh | sudo bash
+// ```
+//
+// By `type`:
+//
+// - `deb`: detect the OS, install prerequisites (curl, gpg, apt-transport-https, debian-archive-keyring), import the repo GPG key (via `gpg_key_url.list`), write `/etc/apt/sources.list.d/` from `config_file.list`, then `apt-get update`.
+// - `rpm`: write a `.repo` from `config_file.repo` into `/etc/yum.repos.d/` (or `/etc/zypp/repos.d/` on SUSE) and refresh the cache.
+// - `alpine`: import the repo's RSA signing key (via `rsa_key_url.alpine`) into `/etc/apk/keys`, then append the apk repository (from `config_file.alpine`) to `/etc/apk/repositories`.
+// - `node`: mint a read token (via `tokens.text`) and write an `.npmrc` registry entry.
+// - `gem`: mint a read token and `gem source --add` the repo.
+// - `python`: mint a read token and add the repo to `~/.pip/pip.conf`.
+// - `helm`: mint a read token and `helm repo add` (then `helm repo update`) with the token as the username.
+//
+// The `deb`, `rpm`, `alpine`, and `helm` scripts register the repository locally as `<user>_<repo>` — only the `/` separator becomes `_`; dashes and other characters in the repo name are preserved (e.g. `acme/my-repo` → `acme_my-repo`). That name is used for the apt `.list` file (and its `-archive-keyring.gpg`), the yum/zypper `.repo` file, the apk repository entry, and the `helm repo add` name respectively. The `node`, `gem`, and `python` scripts create no named entry — they configure the registry/source URL directly.
+//
+// Inputs are read from environment variables set before running (the script takes no arguments when piped):
+//
+// - `os`, `dist`: override the auto-detected distribution and version — honored by `deb`, `rpm`, and `alpine` (see the supported OS list at https://packagecloud.io/docs#os_distro_version).
+// - `unique_id`: the read-token name to create/reuse — honored by `deb`, `rpm`, `node`, `python`, and `alpine`; defaults to the machine's hostname. (`gem` and `helm` always use the hostname.)
+func (c *Client) Script(
+	ctx context.Context,
+	request *packagecloud.InstallScriptRequest,
+	opts ...option.RequestOption,
+) (string, error) {
+	response, err := c.WithRawResponse.Script(
 		ctx,
 		request,
 		opts...,

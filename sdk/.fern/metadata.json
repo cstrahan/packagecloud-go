@@ -8,7 +8,7 @@
     },
     "packageName": "packagecloud"
   },
-  "originGitCommit": "07e7a1591212eff5f03b9e306b6de0c378dc319f",
+  "originGitCommit": "f50c619c086357c5a8801c7313665d9edc5ea89f",
   "originGitCommitIsDirty": true,
   "invokedBy": "ci",
   "ciProvider": "unknown"

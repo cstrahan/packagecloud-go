@@ -9,6 +9,138 @@ import (
 )
 
 var (
+	installAptAuthConfRequestFieldUserID = big.NewInt(1 << 0)
+	installAptAuthConfRequestFieldRepo   = big.NewInt(1 << 1)
+	installAptAuthConfRequestFieldDist   = big.NewInt(1 << 2)
+	installAptAuthConfRequestFieldName   = big.NewInt(1 << 3)
+	installAptAuthConfRequestFieldOs     = big.NewInt(1 << 4)
+)
+
+type InstallAptAuthConfRequest struct {
+	// The username the repository belongs to.
+	UserID string `json:"-" url:"-"`
+	// The name of the repository.
+	Repo string `json:"-" url:"-"`
+	// The OS version as detected — a Debian/Ubuntu codename (`jammy`), an Enterprise-Linux major (`9`), or, for Alpine, `v<major>.<minor>` (e.g. `v3.18` — note the leading `v`). See the supported OS list at https://packagecloud.io/docs#os_distro_version.
+	Dist string `json:"-" url:"dist"`
+	// A unique identifier for the consuming system; a read token created/reused under this name is embedded in the output.
+	Name string `json:"-" url:"name"`
+	// The consuming system's OS, as the setup scripts detect it — e.g. `ubuntu`, `debian`, `el` (the scripts also pass `almalinux`, `centos`, etc.), `alpine`, `opensuse`. packagecloud maps it to a supported distribution and is lenient about case and family aliases.
+	Os string `json:"-" url:"os"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+}
+
+func (i *InstallAptAuthConfRequest) require(field *big.Int) {
+	if i.explicitFields == nil {
+		i.explicitFields = big.NewInt(0)
+	}
+	i.explicitFields.Or(i.explicitFields, field)
+}
+
+// SetUserID sets the UserID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (i *InstallAptAuthConfRequest) SetUserID(userID string) {
+	i.UserID = userID
+	i.require(installAptAuthConfRequestFieldUserID)
+}
+
+// SetRepo sets the Repo field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (i *InstallAptAuthConfRequest) SetRepo(repo string) {
+	i.Repo = repo
+	i.require(installAptAuthConfRequestFieldRepo)
+}
+
+// SetDist sets the Dist field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (i *InstallAptAuthConfRequest) SetDist(dist string) {
+	i.Dist = dist
+	i.require(installAptAuthConfRequestFieldDist)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (i *InstallAptAuthConfRequest) SetName(name string) {
+	i.Name = name
+	i.require(installAptAuthConfRequestFieldName)
+}
+
+// SetOs sets the Os field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (i *InstallAptAuthConfRequest) SetOs(os string) {
+	i.Os = os
+	i.require(installAptAuthConfRequestFieldOs)
+}
+
+var (
+	installConfigFileAlpineRequestFieldUserID = big.NewInt(1 << 0)
+	installConfigFileAlpineRequestFieldRepo   = big.NewInt(1 << 1)
+	installConfigFileAlpineRequestFieldDist   = big.NewInt(1 << 2)
+	installConfigFileAlpineRequestFieldName   = big.NewInt(1 << 3)
+	installConfigFileAlpineRequestFieldOs     = big.NewInt(1 << 4)
+)
+
+type InstallConfigFileAlpineRequest struct {
+	// The username the repository belongs to.
+	UserID string `json:"-" url:"-"`
+	// The name of the repository.
+	Repo string `json:"-" url:"-"`
+	// The OS version as detected — a Debian/Ubuntu codename (`jammy`), an Enterprise-Linux major (`9`), or, for Alpine, `v<major>.<minor>` (e.g. `v3.18` — note the leading `v`). See the supported OS list at https://packagecloud.io/docs#os_distro_version.
+	Dist string `json:"-" url:"dist"`
+	// A unique identifier for the consuming system; a read token created/reused under this name is embedded in the output.
+	Name string `json:"-" url:"name"`
+	// The consuming system's OS, as the setup scripts detect it — e.g. `ubuntu`, `debian`, `el` (the scripts also pass `almalinux`, `centos`, etc.), `alpine`, `opensuse`. packagecloud maps it to a supported distribution and is lenient about case and family aliases.
+	Os string `json:"-" url:"os"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+}
+
+func (i *InstallConfigFileAlpineRequest) require(field *big.Int) {
+	if i.explicitFields == nil {
+		i.explicitFields = big.NewInt(0)
+	}
+	i.explicitFields.Or(i.explicitFields, field)
+}
+
+// SetUserID sets the UserID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (i *InstallConfigFileAlpineRequest) SetUserID(userID string) {
+	i.UserID = userID
+	i.require(installConfigFileAlpineRequestFieldUserID)
+}
+
+// SetRepo sets the Repo field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (i *InstallConfigFileAlpineRequest) SetRepo(repo string) {
+	i.Repo = repo
+	i.require(installConfigFileAlpineRequestFieldRepo)
+}
+
+// SetDist sets the Dist field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (i *InstallConfigFileAlpineRequest) SetDist(dist string) {
+	i.Dist = dist
+	i.require(installConfigFileAlpineRequestFieldDist)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (i *InstallConfigFileAlpineRequest) SetName(name string) {
+	i.Name = name
+	i.require(installConfigFileAlpineRequestFieldName)
+}
+
+// SetOs sets the Os field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (i *InstallConfigFileAlpineRequest) SetOs(os string) {
+	i.Os = os
+	i.require(installConfigFileAlpineRequestFieldOs)
+}
+
+var (
 	installConfigFileListRequestFieldUserID = big.NewInt(1 << 0)
 	installConfigFileListRequestFieldRepo   = big.NewInt(1 << 1)
 	installConfigFileListRequestFieldDist   = big.NewInt(1 << 2)
@@ -21,11 +153,11 @@ type InstallConfigFileListRequest struct {
 	UserID string `json:"-" url:"-"`
 	// The name of the repository.
 	Repo string `json:"-" url:"-"`
-	// Distribution version, e.g. `precise`, `8`, `13.2`.
+	// The OS version as detected — a Debian/Ubuntu codename (`jammy`), an Enterprise-Linux major (`9`), or, for Alpine, `v<major>.<minor>` (e.g. `v3.18` — note the leading `v`). See the supported OS list at https://packagecloud.io/docs#os_distro_version.
 	Dist string `json:"-" url:"dist"`
 	// A unique identifier for the consuming system; a read token created/reused under this name is embedded in the output.
 	Name string `json:"-" url:"name"`
-	// Target distribution, e.g. `ubuntu`, `el`, `opensuse`.
+	// The consuming system's OS, as the setup scripts detect it — e.g. `ubuntu`, `debian`, `el` (the scripts also pass `almalinux`, `centos`, etc.), `alpine`, `opensuse`. packagecloud maps it to a supported distribution and is lenient about case and family aliases.
 	Os string `json:"-" url:"os"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
@@ -87,11 +219,11 @@ type InstallConfigFileRepoRequest struct {
 	UserID string `json:"-" url:"-"`
 	// The name of the repository.
 	Repo string `json:"-" url:"-"`
-	// Distribution version, e.g. `precise`, `8`, `13.2`.
+	// The OS version as detected — a Debian/Ubuntu codename (`jammy`), an Enterprise-Linux major (`9`), or, for Alpine, `v<major>.<minor>` (e.g. `v3.18` — note the leading `v`). See the supported OS list at https://packagecloud.io/docs#os_distro_version.
 	Dist string `json:"-" url:"dist"`
 	// A unique identifier for the consuming system; a read token created/reused under this name is embedded in the output.
 	Name string `json:"-" url:"name"`
-	// Target distribution, e.g. `ubuntu`, `el`, `opensuse`.
+	// The consuming system's OS, as the setup scripts detect it — e.g. `ubuntu`, `debian`, `el` (the scripts also pass `almalinux`, `centos`, etc.), `alpine`, `opensuse`. packagecloud maps it to a supported distribution and is lenient about case and family aliases.
 	Os string `json:"-" url:"os"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
@@ -153,11 +285,11 @@ type InstallGpgKeyURLRequest struct {
 	UserID string `json:"-" url:"-"`
 	// The name of the repository.
 	Repo string `json:"-" url:"-"`
-	// Distribution version, e.g. `precise`, `8`, `13.2`.
+	// The OS version as detected — a Debian/Ubuntu codename (`jammy`), an Enterprise-Linux major (`9`), or, for Alpine, `v<major>.<minor>` (e.g. `v3.18` — note the leading `v`). See the supported OS list at https://packagecloud.io/docs#os_distro_version.
 	Dist string `json:"-" url:"dist"`
 	// A unique identifier for the consuming system; a read token created/reused under this name is embedded in the output.
 	Name string `json:"-" url:"name"`
-	// Target distribution, e.g. `ubuntu`, `el`, `opensuse`.
+	// The consuming system's OS, as the setup scripts detect it — e.g. `ubuntu`, `debian`, `el` (the scripts also pass `almalinux`, `centos`, etc.), `alpine`, `opensuse`. packagecloud maps it to a supported distribution and is lenient about case and family aliases.
 	Os string `json:"-" url:"os"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
@@ -204,6 +336,118 @@ func (i *InstallGpgKeyURLRequest) SetName(name string) {
 func (i *InstallGpgKeyURLRequest) SetOs(os string) {
 	i.Os = os
 	i.require(installGpgKeyURLRequestFieldOs)
+}
+
+var (
+	installRsaKeyURLAlpineRequestFieldUserID = big.NewInt(1 << 0)
+	installRsaKeyURLAlpineRequestFieldRepo   = big.NewInt(1 << 1)
+	installRsaKeyURLAlpineRequestFieldDist   = big.NewInt(1 << 2)
+	installRsaKeyURLAlpineRequestFieldName   = big.NewInt(1 << 3)
+	installRsaKeyURLAlpineRequestFieldOs     = big.NewInt(1 << 4)
+)
+
+type InstallRsaKeyURLAlpineRequest struct {
+	// The username the repository belongs to.
+	UserID string `json:"-" url:"-"`
+	// The name of the repository.
+	Repo string `json:"-" url:"-"`
+	// The OS version as detected — a Debian/Ubuntu codename (`jammy`), an Enterprise-Linux major (`9`), or, for Alpine, `v<major>.<minor>` (e.g. `v3.18` — note the leading `v`). See the supported OS list at https://packagecloud.io/docs#os_distro_version.
+	Dist string `json:"-" url:"dist"`
+	// A unique identifier for the consuming system; a read token created/reused under this name is embedded in the output.
+	Name string `json:"-" url:"name"`
+	// The consuming system's OS, as the setup scripts detect it — e.g. `ubuntu`, `debian`, `el` (the scripts also pass `almalinux`, `centos`, etc.), `alpine`, `opensuse`. packagecloud maps it to a supported distribution and is lenient about case and family aliases.
+	Os string `json:"-" url:"os"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+}
+
+func (i *InstallRsaKeyURLAlpineRequest) require(field *big.Int) {
+	if i.explicitFields == nil {
+		i.explicitFields = big.NewInt(0)
+	}
+	i.explicitFields.Or(i.explicitFields, field)
+}
+
+// SetUserID sets the UserID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (i *InstallRsaKeyURLAlpineRequest) SetUserID(userID string) {
+	i.UserID = userID
+	i.require(installRsaKeyURLAlpineRequestFieldUserID)
+}
+
+// SetRepo sets the Repo field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (i *InstallRsaKeyURLAlpineRequest) SetRepo(repo string) {
+	i.Repo = repo
+	i.require(installRsaKeyURLAlpineRequestFieldRepo)
+}
+
+// SetDist sets the Dist field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (i *InstallRsaKeyURLAlpineRequest) SetDist(dist string) {
+	i.Dist = dist
+	i.require(installRsaKeyURLAlpineRequestFieldDist)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (i *InstallRsaKeyURLAlpineRequest) SetName(name string) {
+	i.Name = name
+	i.require(installRsaKeyURLAlpineRequestFieldName)
+}
+
+// SetOs sets the Os field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (i *InstallRsaKeyURLAlpineRequest) SetOs(os string) {
+	i.Os = os
+	i.require(installRsaKeyURLAlpineRequestFieldOs)
+}
+
+var (
+	installScriptRequestFieldUserID = big.NewInt(1 << 0)
+	installScriptRequestFieldRepo   = big.NewInt(1 << 1)
+	installScriptRequestFieldType   = big.NewInt(1 << 2)
+)
+
+type InstallScriptRequest struct {
+	// The username the repository belongs to.
+	UserID string `json:"-" url:"-"`
+	// The name of the repository.
+	Repo string `json:"-" url:"-"`
+	// Package-manager type. Known values: `deb`, `rpm`, `alpine`, `node`, `gem`, `python`, `helm`.
+	Type string `json:"-" url:"-"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+}
+
+func (i *InstallScriptRequest) require(field *big.Int) {
+	if i.explicitFields == nil {
+		i.explicitFields = big.NewInt(0)
+	}
+	i.explicitFields.Or(i.explicitFields, field)
+}
+
+// SetUserID sets the UserID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (i *InstallScriptRequest) SetUserID(userID string) {
+	i.UserID = userID
+	i.require(installScriptRequestFieldUserID)
+}
+
+// SetRepo sets the Repo field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (i *InstallScriptRequest) SetRepo(repo string) {
+	i.Repo = repo
+	i.require(installScriptRequestFieldRepo)
+}
+
+// SetType sets the Type field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (i *InstallScriptRequest) SetType(type_ string) {
+	i.Type = type_
+	i.require(installScriptRequestFieldType)
 }
 
 var (

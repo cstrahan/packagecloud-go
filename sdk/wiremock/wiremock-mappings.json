@@ -492,7 +492,7 @@
       },
       "response": {
         "status": 200,
-        "body": "[\n  {\n    \"name\": \"jake\",\n    \"created_at\": \"2017-03-13T02:49:29.000Z\",\n    \"distro_version\": \"fedora/22\",\n    \"version\": \"1.0\",\n    \"release\": \"1.el6\",\n    \"architecture\": \"architecture\",\n    \"epoch\": 0,\n    \"scope\": \"scope\",\n    \"private\": false,\n    \"type\": \"rpm\",\n    \"filename\": \"jake-1.0-1.el6.x86_64.rpm\",\n    \"uploader_name\": \"test_user\",\n    \"indexed\": false,\n    \"repository_html_url\": \"/test_user/test_repo\",\n    \"package_url\": \"/api/v1/repos/test_user/test_repo/package/rpm/fedora/22/jake/x86_64/1.0/1.el6.json\",\n    \"package_html_url\": \"/test_user/test_repo/packages/fedora/22/jake-1.0-1.el6.x86_64.rpm\",\n    \"downloads_detail_url\": \"/api/v1/repos/test_user/test_repo/package/rpm/fedora/22/jake/x86_64/1.0/1.el6/stats/downloads/detail.json\",\n    \"downloads_series_url\": \"/api/v1/repos/test_user/test_repo/package/rpm/fedora/22/jake/x86_64/1.0/1.el6/stats/downloads/series/daily.json\",\n    \"downloads_count_url\": \"/api/v1/repos/test_user/test_repo/package/rpm/fedora/22/jake/x86_64/1.0/1.el6/stats/downloads/count.json\",\n    \"promote_url\": \"/api/v1/repos/test_user/test_repo/fedora/22/jake-1.0-1.el6.x86_64.rpm/promote.json\",\n    \"destroy_url\": \"/api/v1/repos/test_user/test_repo/fedora/22/jake-1.0-1.el6.x86_64.rpm\",\n    \"download_url\": \"https://packagecloud.io/test_user/test_repo/packages/fedora/22/jake-1.0-1.el6.x86_64.rpm/download\",\n    \"sha256sum\": \"sha256sum\"\n  },\n  {\n    \"name\": \"jake\",\n    \"created_at\": \"2017-03-13T23:54:48.000Z\",\n    \"distro_version\": \"java/maven2\",\n    \"version\": \"2.3\",\n    \"release\": null,\n    \"architecture\": \"architecture\",\n    \"epoch\": null,\n    \"scope\": \"scope\",\n    \"private\": false,\n    \"type\": \"java\",\n    \"filename\": \"jake-2.3.jar\",\n    \"uploader_name\": \"test_user\",\n    \"indexed\": true,\n    \"repository_html_url\": \"/test_user/test_repo\",\n    \"package_url\": \"/api/v1/repos/test_user/test_repo/package/java/maven2/io.packagecloud/jake/2.3.json\",\n    \"package_html_url\": \"/test_user/test_repo/packages/java/jake-2.3.jar\",\n    \"downloads_detail_url\": \"N/A\",\n    \"downloads_series_url\": \"N/A\",\n    \"downloads_count_url\": \"N/A\",\n    \"promote_url\": \"/api/v1/repos/test_user/test_repo/java/maven2/io.packagecloud/jake-2.3.jar/promote.json\",\n    \"destroy_url\": \"/api/v1/repos/test_user/test_repo/java/maven2/io.packagecloud/jake-2.3.jar\",\n    \"download_url\": \"https://packagecloud.io/test_user/test_repo/packages/java/io.packagecloud/jake-2.3.jar/artifacts/jake-2.3.jar/download\",\n    \"sha256sum\": \"sha256sum\"\n  }\n]",
+        "body": "[\n  {\n    \"name\": \"jake\",\n    \"created_at\": \"2017-03-13T02:49:29.000Z\",\n    \"distro_version\": \"fedora/22\",\n    \"version\": \"1.0\",\n    \"release\": \"1.el6\",\n    \"architecture\": \"architecture\",\n    \"epoch\": 0,\n    \"scope\": \"scope\",\n    \"private\": false,\n    \"type\": \"rpm\",\n    \"filename\": \"jake-1.0-1.el6.x86_64.rpm\",\n    \"uploader_name\": \"test_user\",\n    \"indexed\": false,\n    \"repository_html_url\": \"/test_user/test_repo\",\n    \"package_url\": \"/api/v1/repos/test_user/test_repo/package/rpm/fedora/22/jake/x86_64/1.0/1.el6.json\",\n    \"package_html_url\": \"/test_user/test_repo/packages/fedora/22/jake-1.0-1.el6.x86_64.rpm\",\n    \"downloads_detail_url\": \"/api/v1/repos/test_user/test_repo/package/rpm/fedora/22/jake/x86_64/1.0/1.el6/stats/downloads/detail.json\",\n    \"downloads_series_url\": \"/api/v1/repos/test_user/test_repo/package/rpm/fedora/22/jake/x86_64/1.0/1.el6/stats/downloads/series/daily.json\",\n    \"downloads_count_url\": \"/api/v1/repos/test_user/test_repo/package/rpm/fedora/22/jake/x86_64/1.0/1.el6/stats/downloads/count.json\",\n    \"promote_url\": \"/api/v1/repos/test_user/test_repo/fedora/22/jake-1.0-1.el6.x86_64.rpm/promote.json\",\n    \"destroy_url\": \"/api/v1/repos/test_user/test_repo/fedora/22/jake-1.0-1.el6.x86_64.rpm\",\n    \"download_url\": \"https://packagecloud.io/test_user/test_repo/packages/fedora/22/jake-1.0-1.el6.x86_64.rpm/download\",\n    \"sha256sum\": \"sha256sum\"\n  },\n  {\n    \"name\": \"jake\",\n    \"created_at\": \"2017-03-13T23:54:48.000Z\",\n    \"distro_version\": \"java/maven2\",\n    \"version\": \"2.3\",\n    \"architecture\": \"architecture\",\n    \"scope\": \"scope\",\n    \"private\": false,\n    \"type\": \"java\",\n    \"filename\": \"jake-2.3.jar\",\n    \"uploader_name\": \"test_user\",\n    \"indexed\": true,\n    \"repository_html_url\": \"/test_user/test_repo\",\n    \"package_url\": \"/api/v1/repos/test_user/test_repo/package/java/maven2/io.packagecloud/jake/2.3.json\",\n    \"package_html_url\": \"/test_user/test_repo/packages/java/jake-2.3.jar\",\n    \"downloads_detail_url\": \"N/A\",\n    \"downloads_series_url\": \"N/A\",\n    \"downloads_count_url\": \"N/A\",\n    \"promote_url\": \"/api/v1/repos/test_user/test_repo/java/maven2/io.packagecloud/jake-2.3.jar/promote.json\",\n    \"destroy_url\": \"/api/v1/repos/test_user/test_repo/java/maven2/io.packagecloud/jake-2.3.jar\",\n    \"download_url\": \"https://packagecloud.io/test_user/test_repo/packages/java/io.packagecloud/jake-2.3.jar/artifacts/jake-2.3.jar/download\",\n    \"sha256sum\": \"sha256sum\"\n  }\n]",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -963,7 +963,7 @@
       },
       "response": {
         "status": 200,
-        "body": "[\n  {\n    \"name\": \"jakedotrb\",\n    \"created_at\": \"2017-03-14T14:31:16.000Z\",\n    \"distro_version\": \"RubyGem\",\n    \"version\": \"0.0.1\",\n    \"release\": null,\n    \"architecture\": \"architecture\",\n    \"epoch\": null,\n    \"scope\": \"scope\",\n    \"private\": false,\n    \"type\": \"gem\",\n    \"filename\": \"jakedotrb-0.0.1.gem\",\n    \"uploader_name\": \"test_user\",\n    \"indexed\": false,\n    \"repository_html_url\": \"/test_user/test_repo\",\n    \"package_url\": \"/api/v1/repos/test_user/test_repo/package/gem/jakedotrb/0.0.1.json\",\n    \"package_html_url\": \"/test_user/test_repo/packages/gems/jakedotrb-0.0.1.gem\",\n    \"downloads_detail_url\": \"/api/v1/repos/test_user/test_repo/package/gem/jakedotrb/0.0.1/stats/downloads/detail.json\",\n    \"downloads_series_url\": \"/api/v1/repos/test_user/test_repo/package/gem/jakedotrb/0.0.1/stats/downloads/series/daily.json\",\n    \"downloads_count_url\": \"/api/v1/repos/test_user/test_repo/package/gem/jakedotrb/0.0.1/stats/downloads/count.json\",\n    \"promote_url\": \"/api/v1/repos/test_user/test_repo/gems/jakedotrb-0.0.1.gem/promote.json\",\n    \"destroy_url\": \"/api/v1/repos/test_user/test_repo/gems/jakedotrb-0.0.1.gem\",\n    \"download_url\": \"https://packagecloud.io/test_user/test_repo/packages/gems/jakedotrb-0.0.1.gem/download\",\n    \"sha256sum\": \"sha256sum\"\n  }\n]",
+        "body": "[\n  {\n    \"name\": \"jakedotrb\",\n    \"created_at\": \"2017-03-14T14:31:16.000Z\",\n    \"distro_version\": \"RubyGem\",\n    \"version\": \"0.0.1\",\n    \"architecture\": \"architecture\",\n    \"scope\": \"scope\",\n    \"private\": false,\n    \"type\": \"gem\",\n    \"filename\": \"jakedotrb-0.0.1.gem\",\n    \"uploader_name\": \"test_user\",\n    \"indexed\": false,\n    \"repository_html_url\": \"/test_user/test_repo\",\n    \"package_url\": \"/api/v1/repos/test_user/test_repo/package/gem/jakedotrb/0.0.1.json\",\n    \"package_html_url\": \"/test_user/test_repo/packages/gems/jakedotrb-0.0.1.gem\",\n    \"downloads_detail_url\": \"/api/v1/repos/test_user/test_repo/package/gem/jakedotrb/0.0.1/stats/downloads/detail.json\",\n    \"downloads_series_url\": \"/api/v1/repos/test_user/test_repo/package/gem/jakedotrb/0.0.1/stats/downloads/series/daily.json\",\n    \"downloads_count_url\": \"/api/v1/repos/test_user/test_repo/package/gem/jakedotrb/0.0.1/stats/downloads/count.json\",\n    \"promote_url\": \"/api/v1/repos/test_user/test_repo/gems/jakedotrb-0.0.1.gem/promote.json\",\n    \"destroy_url\": \"/api/v1/repos/test_user/test_repo/gems/jakedotrb-0.0.1.gem\",\n    \"download_url\": \"https://packagecloud.io/test_user/test_repo/packages/gems/jakedotrb-0.0.1.gem/download\",\n    \"sha256sum\": \"sha256sum\"\n  }\n]",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -1050,7 +1050,7 @@
       },
       "response": {
         "status": 200,
-        "body": "[\n  {\n    \"name\": \"test-pkg\",\n    \"created_at\": \"2017-12-19T03:11:21.000Z\",\n    \"distro_version\": \"node/1\",\n    \"version\": \"1.3.1\",\n    \"release\": null,\n    \"architecture\": \"architecture\",\n    \"epoch\": null,\n    \"scope\": null,\n    \"private\": false,\n    \"type\": \"node\",\n    \"filename\": \"test-pkg-1.3.1.tgz\",\n    \"uploader_name\": \"test_user\",\n    \"indexed\": true,\n    \"repository_html_url\": \"/test_user/test_repo\",\n    \"package_url\": \"/api/v1/repos/test_user/test_repo/package/node/test-pkg/1.3.1.json\",\n    \"package_html_url\": \"/test_user/test_repo/packages/node/test-pkg-1.3.1.tgz\",\n    \"downloads_detail_url\": \"/api/v1/repos/test_user/test_repo/package/node/test-pkg/1.3.1/stats/downloads/detail.json\",\n    \"downloads_series_url\": \"/api/v1/repos/test_user/test_repo/package/node/test-pkg/1.3.1/stats/downloads/series/daily.json\",\n    \"downloads_count_url\": \"/api/v1/repos/test_user/test_repo/package/node/test-pkg/1.3.1/stats/downloads/count.json\",\n    \"promote_url\": \"/api/v1/repos/test_user/test_repo/node/1/test-pkg-1.3.1.tgz/promote.json\",\n    \"destroy_url\": \"/api/v1/repos/test_user/test_repo/node/1/test-pkg-1.3.1.tgz\",\n    \"download_url\": \"https://packagecloud.io/test_user/test_repo/packages/node/test-pkg-1.3.1.tgz/download\",\n    \"sha256sum\": \"sha256sum\"\n  }\n]",
+        "body": "[\n  {\n    \"name\": \"test-pkg\",\n    \"created_at\": \"2017-12-19T03:11:21.000Z\",\n    \"distro_version\": \"node/1\",\n    \"version\": \"1.3.1\",\n    \"architecture\": \"architecture\",\n    \"private\": false,\n    \"type\": \"node\",\n    \"filename\": \"test-pkg-1.3.1.tgz\",\n    \"uploader_name\": \"test_user\",\n    \"indexed\": true,\n    \"repository_html_url\": \"/test_user/test_repo\",\n    \"package_url\": \"/api/v1/repos/test_user/test_repo/package/node/test-pkg/1.3.1.json\",\n    \"package_html_url\": \"/test_user/test_repo/packages/node/test-pkg-1.3.1.tgz\",\n    \"downloads_detail_url\": \"/api/v1/repos/test_user/test_repo/package/node/test-pkg/1.3.1/stats/downloads/detail.json\",\n    \"downloads_series_url\": \"/api/v1/repos/test_user/test_repo/package/node/test-pkg/1.3.1/stats/downloads/series/daily.json\",\n    \"downloads_count_url\": \"/api/v1/repos/test_user/test_repo/package/node/test-pkg/1.3.1/stats/downloads/count.json\",\n    \"promote_url\": \"/api/v1/repos/test_user/test_repo/node/1/test-pkg-1.3.1.tgz/promote.json\",\n    \"destroy_url\": \"/api/v1/repos/test_user/test_repo/node/1/test-pkg-1.3.1.tgz\",\n    \"download_url\": \"https://packagecloud.io/test_user/test_repo/packages/node/test-pkg-1.3.1.tgz/download\",\n    \"sha256sum\": \"sha256sum\"\n  }\n]",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -1092,7 +1092,7 @@
       },
       "response": {
         "status": 200,
-        "body": "[\n  {\n    \"name\": \"packagecloud-test\",\n    \"created_at\": \"2017-03-14T15:58:49.000Z\",\n    \"distro_version\": \"python\",\n    \"version\": \"0.9.7b1\",\n    \"release\": null,\n    \"architecture\": \"architecture\",\n    \"epoch\": null,\n    \"scope\": \"scope\",\n    \"private\": false,\n    \"type\": \"python\",\n    \"filename\": \"packagecloud_test-0.9.7b1-py2.py3-none-any.whl\",\n    \"uploader_name\": \"test_user\",\n    \"indexed\": false,\n    \"repository_html_url\": \"/test_user/test_repo\",\n    \"package_url\": \"/api/v1/repos/test_user/test_repo/package/python/packagecloud-test/0.9.7b1.json\",\n    \"package_html_url\": \"/test_user/test_repo/packages/python/packagecloud_test-0.9.7b1-py2.py3-none-any.whl\",\n    \"downloads_detail_url\": \"/api/v1/repos/test_user/test_repo/package/python/packagecloud-test/0.9.7b1/stats/downloads/detail.json\",\n    \"downloads_series_url\": \"/api/v1/repos/test_user/test_repo/package/python/packagecloud-test/0.9.7b1/stats/downloads/series/daily.json\",\n    \"downloads_count_url\": \"/api/v1/repos/test_user/test_repo/package/python/packagecloud-test/0.9.7b1/stats/downloads/count.json\",\n    \"promote_url\": \"/api/v1/repos/test_user/test_repo/python/1/packagecloud_test-0.9.7b1-py2.py3-none-any.whl/promote.json\",\n    \"destroy_url\": \"/api/v1/repos/test_user/test_repo/python/1/packagecloud_test-0.9.7b1-py2.py3-none-any.whl\",\n    \"download_url\": \"https://packagecloud.io/test_user/test_repo/packages/python/packagecloud_test-0.9.7b1-py2.py3-none-any.whl/download\",\n    \"sha256sum\": \"sha256sum\"\n  }\n]",
+        "body": "[\n  {\n    \"name\": \"packagecloud-test\",\n    \"created_at\": \"2017-03-14T15:58:49.000Z\",\n    \"distro_version\": \"python\",\n    \"version\": \"0.9.7b1\",\n    \"architecture\": \"architecture\",\n    \"scope\": \"scope\",\n    \"private\": false,\n    \"type\": \"python\",\n    \"filename\": \"packagecloud_test-0.9.7b1-py2.py3-none-any.whl\",\n    \"uploader_name\": \"test_user\",\n    \"indexed\": false,\n    \"repository_html_url\": \"/test_user/test_repo\",\n    \"package_url\": \"/api/v1/repos/test_user/test_repo/package/python/packagecloud-test/0.9.7b1.json\",\n    \"package_html_url\": \"/test_user/test_repo/packages/python/packagecloud_test-0.9.7b1-py2.py3-none-any.whl\",\n    \"downloads_detail_url\": \"/api/v1/repos/test_user/test_repo/package/python/packagecloud-test/0.9.7b1/stats/downloads/detail.json\",\n    \"downloads_series_url\": \"/api/v1/repos/test_user/test_repo/package/python/packagecloud-test/0.9.7b1/stats/downloads/series/daily.json\",\n    \"downloads_count_url\": \"/api/v1/repos/test_user/test_repo/package/python/packagecloud-test/0.9.7b1/stats/downloads/count.json\",\n    \"promote_url\": \"/api/v1/repos/test_user/test_repo/python/1/packagecloud_test-0.9.7b1-py2.py3-none-any.whl/promote.json\",\n    \"destroy_url\": \"/api/v1/repos/test_user/test_repo/python/1/packagecloud_test-0.9.7b1-py2.py3-none-any.whl\",\n    \"download_url\": \"https://packagecloud.io/test_user/test_repo/packages/python/packagecloud_test-0.9.7b1-py2.py3-none-any.whl/download\",\n    \"sha256sum\": \"sha256sum\"\n  }\n]",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -1137,7 +1137,7 @@
       },
       "response": {
         "status": 200,
-        "body": "[\n  {\n    \"name\": \"jake\",\n    \"created_at\": \"2017-03-13T23:54:48.000Z\",\n    \"distro_version\": \"java/maven2\",\n    \"version\": \"2.3\",\n    \"release\": null,\n    \"architecture\": \"architecture\",\n    \"epoch\": null,\n    \"scope\": \"scope\",\n    \"private\": false,\n    \"type\": \"java\",\n    \"filename\": \"jake-2.3.jar\",\n    \"uploader_name\": \"test_user\",\n    \"indexed\": true,\n    \"repository_html_url\": \"/test_user/test_repo\",\n    \"package_url\": \"/api/v1/repos/test_user/test_repo/package/java/maven2/io.packagecloud/jake/2.3.json\",\n    \"package_html_url\": \"/test_user/test_repo/packages/java/jake-2.3.jar\",\n    \"downloads_detail_url\": \"N/A\",\n    \"downloads_series_url\": \"N/A\",\n    \"downloads_count_url\": \"N/A\",\n    \"promote_url\": \"/api/v1/repos/test_user/test_repo/java/maven2/io.packagecloud/jake-2.3.jar/promote.json\",\n    \"destroy_url\": \"/api/v1/repos/test_user/test_repo/java/maven2/io.packagecloud/jake-2.3.jar\",\n    \"download_url\": \"https://packagecloud.io/test_user/test_repo/packages/java/io.packagecloud/jake-2.3.jar/artifacts/jake-2.3.jar/download\",\n    \"sha256sum\": \"sha256sum\"\n  }\n]",
+        "body": "[\n  {\n    \"name\": \"jake\",\n    \"created_at\": \"2017-03-13T23:54:48.000Z\",\n    \"distro_version\": \"java/maven2\",\n    \"version\": \"2.3\",\n    \"architecture\": \"architecture\",\n    \"scope\": \"scope\",\n    \"private\": false,\n    \"type\": \"java\",\n    \"filename\": \"jake-2.3.jar\",\n    \"uploader_name\": \"test_user\",\n    \"indexed\": true,\n    \"repository_html_url\": \"/test_user/test_repo\",\n    \"package_url\": \"/api/v1/repos/test_user/test_repo/package/java/maven2/io.packagecloud/jake/2.3.json\",\n    \"package_html_url\": \"/test_user/test_repo/packages/java/jake-2.3.jar\",\n    \"downloads_detail_url\": \"N/A\",\n    \"downloads_series_url\": \"N/A\",\n    \"downloads_count_url\": \"N/A\",\n    \"promote_url\": \"/api/v1/repos/test_user/test_repo/java/maven2/io.packagecloud/jake-2.3.jar/promote.json\",\n    \"destroy_url\": \"/api/v1/repos/test_user/test_repo/java/maven2/io.packagecloud/jake-2.3.jar\",\n    \"download_url\": \"https://packagecloud.io/test_user/test_repo/packages/java/io.packagecloud/jake-2.3.jar/artifacts/jake-2.3.jar/download\",\n    \"sha256sum\": \"sha256sum\"\n  }\n]",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -1179,7 +1179,7 @@
       },
       "response": {
         "status": 200,
-        "body": "[\n  {\n    \"name\": \"jake\",\n    \"created_at\": \"2017-03-13T02:49:29.000Z\",\n    \"distro_version\": \"fedora/22\",\n    \"version\": \"1.0\",\n    \"release\": \"1.el6\",\n    \"architecture\": \"architecture\",\n    \"epoch\": 0,\n    \"scope\": null,\n    \"private\": false,\n    \"type\": \"rpm\",\n    \"filename\": \"jake-1.0-1.el6.x86_64.rpm\",\n    \"uploader_name\": \"test_user\",\n    \"indexed\": false,\n    \"repository_html_url\": \"/test_user/test_repo\",\n    \"package_url\": \"/api/v1/repos/test_user/test_repo/package/rpm/fedora/22/jake/x86_64/1.0/1.el6.json\",\n    \"package_html_url\": \"/test_user/test_repo/packages/fedora/22/jake-1.0-1.el6.x86_64.rpm\",\n    \"downloads_detail_url\": \"/api/v1/repos/test_user/test_repo/package/rpm/fedora/22/jake/x86_64/1.0/1.el6/stats/downloads/detail.json\",\n    \"downloads_series_url\": \"/api/v1/repos/test_user/test_repo/package/rpm/fedora/22/jake/x86_64/1.0/1.el6/stats/downloads/series/daily.json\",\n    \"downloads_count_url\": \"/api/v1/repos/test_user/test_repo/package/rpm/fedora/22/jake/x86_64/1.0/1.el6/stats/downloads/count.json\",\n    \"promote_url\": \"/api/v1/repos/test_user/test_repo/fedora/22/jake-1.0-1.el6.x86_64.rpm/promote.json\",\n    \"destroy_url\": \"destroy_url\",\n    \"download_url\": \"download_url\",\n    \"sha256sum\": \"sha256sum\"\n  }\n]",
+        "body": "[\n  {\n    \"name\": \"jake\",\n    \"created_at\": \"2017-03-13T02:49:29.000Z\",\n    \"distro_version\": \"fedora/22\",\n    \"version\": \"1.0\",\n    \"release\": \"1.el6\",\n    \"architecture\": \"architecture\",\n    \"epoch\": 0,\n    \"private\": false,\n    \"type\": \"rpm\",\n    \"filename\": \"jake-1.0-1.el6.x86_64.rpm\",\n    \"uploader_name\": \"test_user\",\n    \"indexed\": false,\n    \"repository_html_url\": \"/test_user/test_repo\",\n    \"package_url\": \"/api/v1/repos/test_user/test_repo/package/rpm/fedora/22/jake/x86_64/1.0/1.el6.json\",\n    \"package_html_url\": \"/test_user/test_repo/packages/fedora/22/jake-1.0-1.el6.x86_64.rpm\",\n    \"downloads_detail_url\": \"/api/v1/repos/test_user/test_repo/package/rpm/fedora/22/jake/x86_64/1.0/1.el6/stats/downloads/detail.json\",\n    \"downloads_series_url\": \"/api/v1/repos/test_user/test_repo/package/rpm/fedora/22/jake/x86_64/1.0/1.el6/stats/downloads/series/daily.json\",\n    \"downloads_count_url\": \"/api/v1/repos/test_user/test_repo/package/rpm/fedora/22/jake/x86_64/1.0/1.el6/stats/downloads/count.json\",\n    \"promote_url\": \"/api/v1/repos/test_user/test_repo/fedora/22/jake-1.0-1.el6.x86_64.rpm/promote.json\",\n    \"destroy_url\": \"destroy_url\",\n    \"download_url\": \"download_url\",\n    \"sha256sum\": \"sha256sum\"\n  }\n]",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -1407,7 +1407,7 @@
       },
       "response": {
         "status": 200,
-        "body": "[\n  {\n    \"name\": \"jakedotrb\",\n    \"created_at\": \"2017-03-14T14:31:16.000Z\",\n    \"distro_version\": \"RubyGem\",\n    \"version\": \"0.0.1\",\n    \"release\": null,\n    \"architecture\": \"architecture\",\n    \"epoch\": null,\n    \"scope\": \"scope\",\n    \"private\": false,\n    \"type\": \"gem\",\n    \"filename\": \"jakedotrb-0.0.1.gem\",\n    \"uploader_name\": \"test_user\",\n    \"indexed\": false,\n    \"repository_html_url\": \"/test_user/test_repo\",\n    \"package_url\": \"/api/v1/repos/test_user/test_repo/package/gem/jakedotrb/0.0.1.json\",\n    \"package_html_url\": \"/test_user/test_repo/packages/gems/jakedotrb-0.0.1.gem\",\n    \"downloads_detail_url\": \"/api/v1/repos/test_user/test_repo/package/gem/jakedotrb/0.0.1/stats/downloads/detail.json\",\n    \"downloads_series_url\": \"/api/v1/repos/test_user/test_repo/package/gem/jakedotrb/0.0.1/stats/downloads/series/daily.json\",\n    \"downloads_count_url\": \"/api/v1/repos/test_user/test_repo/package/gem/jakedotrb/0.0.1/stats/downloads/count.json\",\n    \"promote_url\": \"/api/v1/repos/test_user/test_repo/gems/jakedotrb-0.0.1.gem/promote.json\",\n    \"destroy_url\": \"/api/v1/repos/test_user/test_repo/gems/jakedotrb-0.0.1.gem\",\n    \"download_url\": \"https://packagecloud.io/test_user/test_repo/packages/gems/jakedotrb-0.0.1.gem/download\",\n    \"sha256sum\": \"sha256sum\"\n  },\n  {\n    \"name\": \"jake\",\n    \"created_at\": \"2017-03-13T02:49:29.000Z\",\n    \"distro_version\": \"fedora/22\",\n    \"version\": \"1.0\",\n    \"release\": \"1.el6\",\n    \"architecture\": \"architecture\",\n    \"epoch\": 0,\n    \"scope\": \"scope\",\n    \"private\": false,\n    \"type\": \"rpm\",\n    \"filename\": \"jake-1.0-1.el6.x86_64.rpm\",\n    \"uploader_name\": \"test_user\",\n    \"indexed\": false,\n    \"repository_html_url\": \"/test_user/test_repo\",\n    \"package_url\": \"/api/v1/repos/test_user/test_repo/package/rpm/fedora/22/jake/x86_64/1.0/1.el6.json\",\n    \"package_html_url\": \"/test_user/test_repo/packages/fedora/22/jake-1.0-1.el6.x86_64.rpm\",\n    \"downloads_detail_url\": \"/api/v1/repos/test_user/test_repo/package/rpm/fedora/22/jake/x86_64/1.0/1.el6/stats/downloads/detail.json\",\n    \"downloads_series_url\": \"/api/v1/repos/test_user/test_repo/package/rpm/fedora/22/jake/x86_64/1.0/1.el6/stats/downloads/series/daily.json\",\n    \"downloads_count_url\": \"/api/v1/repos/test_user/test_repo/package/rpm/fedora/22/jake/x86_64/1.0/1.el6/stats/downloads/count.json\",\n    \"promote_url\": \"/api/v1/repos/test_user/test_repo/fedora/22/jake-1.0-1.el6.x86_64.rpm/promote.json\",\n    \"destroy_url\": \"/api/v1/repos/test_user/test_repo/fedora/22/jake-1.0-1.el6.x86_64.rpm\",\n    \"download_url\": \"https://packagecloud.io/test_user/test_repo/packages/fedora/22/jake-1.0-1.el6.x86_64.rpm/download\",\n    \"sha256sum\": \"sha256sum\"\n  }\n]",
+        "body": "[\n  {\n    \"name\": \"jakedotrb\",\n    \"created_at\": \"2017-03-14T14:31:16.000Z\",\n    \"distro_version\": \"RubyGem\",\n    \"version\": \"0.0.1\",\n    \"architecture\": \"architecture\",\n    \"scope\": \"scope\",\n    \"private\": false,\n    \"type\": \"gem\",\n    \"filename\": \"jakedotrb-0.0.1.gem\",\n    \"uploader_name\": \"test_user\",\n    \"indexed\": false,\n    \"repository_html_url\": \"/test_user/test_repo\",\n    \"package_url\": \"/api/v1/repos/test_user/test_repo/package/gem/jakedotrb/0.0.1.json\",\n    \"package_html_url\": \"/test_user/test_repo/packages/gems/jakedotrb-0.0.1.gem\",\n    \"downloads_detail_url\": \"/api/v1/repos/test_user/test_repo/package/gem/jakedotrb/0.0.1/stats/downloads/detail.json\",\n    \"downloads_series_url\": \"/api/v1/repos/test_user/test_repo/package/gem/jakedotrb/0.0.1/stats/downloads/series/daily.json\",\n    \"downloads_count_url\": \"/api/v1/repos/test_user/test_repo/package/gem/jakedotrb/0.0.1/stats/downloads/count.json\",\n    \"promote_url\": \"/api/v1/repos/test_user/test_repo/gems/jakedotrb-0.0.1.gem/promote.json\",\n    \"destroy_url\": \"/api/v1/repos/test_user/test_repo/gems/jakedotrb-0.0.1.gem\",\n    \"download_url\": \"https://packagecloud.io/test_user/test_repo/packages/gems/jakedotrb-0.0.1.gem/download\",\n    \"sha256sum\": \"sha256sum\"\n  },\n  {\n    \"name\": \"jake\",\n    \"created_at\": \"2017-03-13T02:49:29.000Z\",\n    \"distro_version\": \"fedora/22\",\n    \"version\": \"1.0\",\n    \"release\": \"1.el6\",\n    \"architecture\": \"architecture\",\n    \"epoch\": 0,\n    \"scope\": \"scope\",\n    \"private\": false,\n    \"type\": \"rpm\",\n    \"filename\": \"jake-1.0-1.el6.x86_64.rpm\",\n    \"uploader_name\": \"test_user\",\n    \"indexed\": false,\n    \"repository_html_url\": \"/test_user/test_repo\",\n    \"package_url\": \"/api/v1/repos/test_user/test_repo/package/rpm/fedora/22/jake/x86_64/1.0/1.el6.json\",\n    \"package_html_url\": \"/test_user/test_repo/packages/fedora/22/jake-1.0-1.el6.x86_64.rpm\",\n    \"downloads_detail_url\": \"/api/v1/repos/test_user/test_repo/package/rpm/fedora/22/jake/x86_64/1.0/1.el6/stats/downloads/detail.json\",\n    \"downloads_series_url\": \"/api/v1/repos/test_user/test_repo/package/rpm/fedora/22/jake/x86_64/1.0/1.el6/stats/downloads/series/daily.json\",\n    \"downloads_count_url\": \"/api/v1/repos/test_user/test_repo/package/rpm/fedora/22/jake/x86_64/1.0/1.el6/stats/downloads/count.json\",\n    \"promote_url\": \"/api/v1/repos/test_user/test_repo/fedora/22/jake-1.0-1.el6.x86_64.rpm/promote.json\",\n    \"destroy_url\": \"/api/v1/repos/test_user/test_repo/fedora/22/jake-1.0-1.el6.x86_64.rpm\",\n    \"download_url\": \"https://packagecloud.io/test_user/test_repo/packages/fedora/22/jake-1.0-1.el6.x86_64.rpm/download\",\n    \"sha256sum\": \"sha256sum\"\n  }\n]",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -2895,6 +2895,56 @@
       }
     },
     {
+      "id": "c4dadb8a-dd78-4d56-bfba-b5062671e888",
+      "name": "apt auth.conf - default",
+      "request": {
+        "urlPathTemplate": "/install/repositories/{user_id}/{repo}/apt_auth_conf",
+        "method": "GET",
+        "headers": {
+          "Authorization": {
+            "equalTo": "Basic dGVzdC11c2VybmFtZTp0ZXN0LXBhc3N3b3Jk"
+          }
+        },
+        "pathParameters": {
+          "user_id": {
+            "equalTo": "user_id"
+          },
+          "repo": {
+            "equalTo": "repo"
+          }
+        },
+        "queryParameters": {
+          "dist": {
+            "equalTo": "dist"
+          },
+          "name": {
+            "equalTo": "name"
+          },
+          "os": {
+            "equalTo": "os"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "\"string\"",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "c4dadb8a-dd78-4d56-bfba-b5062671e888",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      }
+    },
+    {
       "id": "d9631b2a-cd7c-4680-94f5-d41b4d59fb67",
       "name": "yum/zypper config - default",
       "request": {
@@ -2943,9 +2993,151 @@
           }
         }
       }
+    },
+    {
+      "id": "1535a3a5-b05f-498a-8f50-8238cf821899",
+      "name": "apk config - default",
+      "request": {
+        "urlPathTemplate": "/install/repositories/{user_id}/{repo}/config_file.alpine",
+        "method": "GET",
+        "headers": {
+          "Authorization": {
+            "equalTo": "Basic dGVzdC11c2VybmFtZTp0ZXN0LXBhc3N3b3Jk"
+          }
+        },
+        "pathParameters": {
+          "user_id": {
+            "equalTo": "user_id"
+          },
+          "repo": {
+            "equalTo": "repo"
+          }
+        },
+        "queryParameters": {
+          "dist": {
+            "equalTo": "dist"
+          },
+          "name": {
+            "equalTo": "name"
+          },
+          "os": {
+            "equalTo": "os"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "\"string\"",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "1535a3a5-b05f-498a-8f50-8238cf821899",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      }
+    },
+    {
+      "id": "4570cfa4-73f4-4666-986a-5de916d8b35b",
+      "name": "alpine rsa key url - default",
+      "request": {
+        "urlPathTemplate": "/install/repositories/{user_id}/{repo}/rsa_key_url.alpine",
+        "method": "GET",
+        "headers": {
+          "Authorization": {
+            "equalTo": "Basic dGVzdC11c2VybmFtZTp0ZXN0LXBhc3N3b3Jk"
+          }
+        },
+        "pathParameters": {
+          "user_id": {
+            "equalTo": "user_id"
+          },
+          "repo": {
+            "equalTo": "repo"
+          }
+        },
+        "queryParameters": {
+          "dist": {
+            "equalTo": "dist"
+          },
+          "name": {
+            "equalTo": "name"
+          },
+          "os": {
+            "equalTo": "os"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "\"string\"",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "4570cfa4-73f4-4666-986a-5de916d8b35b",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      }
+    },
+    {
+      "id": "3c9103ef-adf7-4c53-894d-2f8833aa74c3",
+      "name": "install script - default",
+      "request": {
+        "urlPathTemplate": "/install/repositories/{user_id}/{repo}/script.{type}.sh",
+        "method": "GET",
+        "headers": {
+          "Authorization": {
+            "equalTo": "Basic dGVzdC11c2VybmFtZTp0ZXN0LXBhc3N3b3Jk"
+          }
+        },
+        "pathParameters": {
+          "user_id": {
+            "equalTo": "user_id"
+          },
+          "repo": {
+            "equalTo": "repo"
+          },
+          "type": {
+            "equalTo": "type"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "\"string\"",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "3c9103ef-adf7-4c53-894d-2f8833aa74c3",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      }
     }
   ],
   "meta": {
-    "total": 67
+    "total": 71
   }
 }

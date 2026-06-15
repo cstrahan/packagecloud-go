@@ -165,6 +165,36 @@ func TestInstallConfigFileListWithWireMock(
 	VerifyRequestCount(t, "TestInstallConfigFileListWithWireMock", "GET", "/install/repositories/user_id/repo/config_file.list", map[string]interface{}{"dist": "dist", "name": "name", "os": "os"}, 1)
 }
 
+func TestInstallAptAuthConfWithWireMock(
+	t *testing.T,
+) {
+	WireMockBaseURL := os.Getenv("WIREMOCK_URL")
+	if WireMockBaseURL == "" {
+		WireMockBaseURL = "http://localhost:8080"
+	}
+	client := client.NewClient(
+		option.WithBaseURL(WireMockBaseURL),
+		option.WithBasicAuth("test-username", "test-password"),
+	)
+	request := &packagecloud.InstallAptAuthConfRequest{
+		UserID: "user_id",
+		Repo:   "repo",
+		Dist:   "dist",
+		Name:   "name",
+		Os:     "os",
+	}
+	_, invocationErr := client.Install.AptAuthConf(
+		context.TODO(),
+		request,
+		option.WithHTTPHeader(
+			http.Header{"X-Test-Id": []string{"TestInstallAptAuthConfWithWireMock"}},
+		),
+	)
+
+	require.NoError(t, invocationErr, "Client method call should succeed")
+	VerifyRequestCount(t, "TestInstallAptAuthConfWithWireMock", "GET", "/install/repositories/user_id/repo/apt_auth_conf", map[string]interface{}{"dist": "dist", "name": "name", "os": "os"}, 1)
+}
+
 func TestInstallConfigFileRepoWithWireMock(
 	t *testing.T,
 ) {
@@ -193,4 +223,92 @@ func TestInstallConfigFileRepoWithWireMock(
 
 	require.NoError(t, invocationErr, "Client method call should succeed")
 	VerifyRequestCount(t, "TestInstallConfigFileRepoWithWireMock", "GET", "/install/repositories/user_id/repo/config_file.repo", map[string]interface{}{"dist": "dist", "name": "name", "os": "os"}, 1)
+}
+
+func TestInstallConfigFileAlpineWithWireMock(
+	t *testing.T,
+) {
+	WireMockBaseURL := os.Getenv("WIREMOCK_URL")
+	if WireMockBaseURL == "" {
+		WireMockBaseURL = "http://localhost:8080"
+	}
+	client := client.NewClient(
+		option.WithBaseURL(WireMockBaseURL),
+		option.WithBasicAuth("test-username", "test-password"),
+	)
+	request := &packagecloud.InstallConfigFileAlpineRequest{
+		UserID: "user_id",
+		Repo:   "repo",
+		Dist:   "dist",
+		Name:   "name",
+		Os:     "os",
+	}
+	_, invocationErr := client.Install.ConfigFileAlpine(
+		context.TODO(),
+		request,
+		option.WithHTTPHeader(
+			http.Header{"X-Test-Id": []string{"TestInstallConfigFileAlpineWithWireMock"}},
+		),
+	)
+
+	require.NoError(t, invocationErr, "Client method call should succeed")
+	VerifyRequestCount(t, "TestInstallConfigFileAlpineWithWireMock", "GET", "/install/repositories/user_id/repo/config_file.alpine", map[string]interface{}{"dist": "dist", "name": "name", "os": "os"}, 1)
+}
+
+func TestInstallRsaKeyURLAlpineWithWireMock(
+	t *testing.T,
+) {
+	WireMockBaseURL := os.Getenv("WIREMOCK_URL")
+	if WireMockBaseURL == "" {
+		WireMockBaseURL = "http://localhost:8080"
+	}
+	client := client.NewClient(
+		option.WithBaseURL(WireMockBaseURL),
+		option.WithBasicAuth("test-username", "test-password"),
+	)
+	request := &packagecloud.InstallRsaKeyURLAlpineRequest{
+		UserID: "user_id",
+		Repo:   "repo",
+		Dist:   "dist",
+		Name:   "name",
+		Os:     "os",
+	}
+	_, invocationErr := client.Install.RsaKeyURLAlpine(
+		context.TODO(),
+		request,
+		option.WithHTTPHeader(
+			http.Header{"X-Test-Id": []string{"TestInstallRsaKeyURLAlpineWithWireMock"}},
+		),
+	)
+
+	require.NoError(t, invocationErr, "Client method call should succeed")
+	VerifyRequestCount(t, "TestInstallRsaKeyURLAlpineWithWireMock", "GET", "/install/repositories/user_id/repo/rsa_key_url.alpine", map[string]interface{}{"dist": "dist", "name": "name", "os": "os"}, 1)
+}
+
+func TestInstallScriptWithWireMock(
+	t *testing.T,
+) {
+	WireMockBaseURL := os.Getenv("WIREMOCK_URL")
+	if WireMockBaseURL == "" {
+		WireMockBaseURL = "http://localhost:8080"
+	}
+	client := client.NewClient(
+		option.WithBaseURL(WireMockBaseURL),
+		option.WithBasicAuth("test-username", "test-password"),
+	)
+	request := &packagecloud.InstallScriptRequest{
+		UserID: "user_id",
+		Repo:   "repo",
+		Type:   "type",
+	}
+	_, invocationErr := client.Install.Script(
+		context.TODO(),
+		request,
+		option.WithHTTPHeader(
+			http.Header{"X-Test-Id": []string{"TestInstallScriptWithWireMock"}},
+		),
+	)
+
+	require.NoError(t, invocationErr, "Client method call should succeed")
+	VerifyRequestCount(t, "TestInstallScriptWithWireMock", "GET", "/install/repositories/user_id/repo/script.type.sh", nil, 1)
 }
