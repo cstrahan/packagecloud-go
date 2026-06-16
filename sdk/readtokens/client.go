@@ -45,7 +45,7 @@ func (c *Client) Index(
 	ctx context.Context,
 	request *packagecloud.ReadTokensIndexRequest,
 	opts ...option.RequestOption,
-) (*packagecloud.ReadTokensIndexResponse, error) {
+) (*packagecloud.ReadTokenList, error) {
 	response, err := c.WithRawResponse.Index(
 		ctx,
 		request,

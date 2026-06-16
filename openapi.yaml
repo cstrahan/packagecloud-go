@@ -70,11 +70,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                additionalProperties:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/Distribution'
+                $ref: '#/components/schemas/Distributions'
               example:
                 deb:
                 - display_name: Ubuntu
@@ -126,14 +122,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  gpg_keys:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/GPGKey'
-                required:
-                - gpg_keys
+                $ref: '#/components/schemas/GPGKeyList'
               example:
                 gpg_keys:
                 - self: /api/v1/repos/username/reponame/gpg_keys/username-reponame-85D7FBF915DFCBC6.pub.gpg.json
@@ -2402,14 +2391,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  read_tokens:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/ReadToken'
-                required:
-                - read_tokens
+                $ref: '#/components/schemas/ReadTokenList'
               example:
                 read_tokens:
                 - id: 1234
@@ -2650,10 +2632,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  url:
-                    type: string
+                $ref: '#/components/schemas/RepositoryCreated'
               example:
                 url: https://packagecloud.io/cooluser/thename
   /api/v1/repos/{user_id}/{name}:
@@ -5953,4 +5932,41 @@ components:
         - filename: jake_1.0-7.debian.tar.gz
           size: 1571
           md5sum: 0fa5395e95ddf846b419e96575ce8044
+    GPGKeyList:
+      type: object
+      description: A list of a repository's GPG keys, as returned by the gpg_keys index.
+      properties:
+        gpg_keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/GPGKey'
+      required:
+      - gpg_keys
+    ReadTokenList:
+      type: object
+      description: A list of a master token's read tokens, as returned by the read_tokens index.
+      properties:
+        read_tokens:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReadToken'
+      required:
+      - read_tokens
+    Distributions:
+      type: object
+      description: Supported distributions grouped by package type. Keys are package-type names ("deb",
+        "dsc", "rpm"); each value is the list of distributions that support that package type.
+      additionalProperties:
+        type: array
+        items:
+          $ref: '#/components/schemas/Distribution'
+    RepositoryCreated:
+      type: object
+      description: The result of creating a repository — the API URL of the new repo.
+      properties:
+        url:
+          type: string
+          description: The API URL of the newly created repository.
+      required:
+      - url
 

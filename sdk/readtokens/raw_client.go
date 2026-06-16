@@ -36,7 +36,7 @@ func (r *RawClient) Index(
 	ctx context.Context,
 	request *packagecloud.ReadTokensIndexRequest,
 	opts ...option.RequestOption,
-) (*core.Response[*packagecloud.ReadTokensIndexResponse], error) {
+) (*core.Response[*packagecloud.ReadTokenList], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -53,7 +53,7 @@ func (r *RawClient) Index(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response *packagecloud.ReadTokensIndexResponse
+	var response *packagecloud.ReadTokenList
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -71,7 +71,7 @@ func (r *RawClient) Index(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*packagecloud.ReadTokensIndexResponse]{
+	return &core.Response[*packagecloud.ReadTokenList]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,

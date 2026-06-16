@@ -68,7 +68,7 @@ func newRepoCmd() *cobra.Command {
 			if err != nil {
 				return err
 			}
-			return confirm(cmd, repo, "Created repository: %s", deref(repo.URL))
+			return confirm(cmd, repo, "Created repository: %s", repo.URL)
 		},
 	}
 	create.Flags().Bool("private", false, "make the repository private")

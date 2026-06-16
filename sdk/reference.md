@@ -1,6 +1,6 @@
 # Reference
 ## distributions
-<details><summary><code>client.Distributions.Index() -> map[string][]*packagecloud.Distribution</code></summary>
+<details><summary><code>client.Distributions.Index() -> packagecloud.Distributions</code></summary>
 <dl>
 <dd>
 
@@ -47,7 +47,7 @@ client.Distributions.Index(
 </details>
 
 ## gpg_keys
-<details><summary><code>client.GpgKeys.Index(UserID, Repo) -> *packagecloud.GpgKeysIndexResponse</code></summary>
+<details><summary><code>client.GpgKeys.Index(UserID, Repo) -> *packagecloud.GpgKeyList</code></summary>
 <dl>
 <dd>
 
@@ -3235,7 +3235,7 @@ client.Packages.Search(
 </details>
 
 ## read_tokens
-<details><summary><code>client.ReadTokens.Index(UserID, Repo, MasterToken) -> *packagecloud.ReadTokensIndexResponse</code></summary>
+<details><summary><code>client.ReadTokens.Index(UserID, Repo, MasterToken) -> *packagecloud.ReadTokenList</code></summary>
 <dl>
 <dd>
 
@@ -3681,7 +3681,7 @@ client.Repositories.Index(
 </dl>
 </details>
 
-<details><summary><code>client.Repositories.Create(request) -> *packagecloud.RepositoriesCreateResponse</code></summary>
+<details><summary><code>client.Repositories.Create(request) -> *packagecloud.RepositoryCreated</code></summary>
 <dl>
 <dd>
 

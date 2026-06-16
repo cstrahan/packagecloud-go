@@ -29,7 +29,7 @@ func (a *App) ListRepositories(ctx context.Context, includeCollaborations bool, 
 
 // CreateRepository creates a repository. name may be a bare "repo" (created in
 // the authenticated user's namespace) or a fully-qualified "user/repo".
-func (a *App) CreateRepository(ctx context.Context, name string, private bool) (*pc.RepositoriesCreateResponse, error) {
+func (a *App) CreateRepository(ctx context.Context, name string, private bool) (*pc.RepositoryCreated, error) {
 	req := &pc.RepositoriesCreateRequest{
 		Repository: &pc.RepositoriesCreateRequestRepository{Name: pc.String(name)},
 	}

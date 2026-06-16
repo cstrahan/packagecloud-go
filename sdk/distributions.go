@@ -128,6 +128,9 @@ func (d *Distribution) String() string {
 	return fmt.Sprintf("%#v", d)
 }
 
+// Supported distributions grouped by package type. Keys are package-type names ("deb", "dsc", "rpm"); each value is the list of distributions that support that package type.
+type Distributions = map[string][]*Distribution
+
 var (
 	distroVersionFieldID            = big.NewInt(1 << 0)
 	distroVersionFieldDisplayName   = big.NewInt(1 << 1)

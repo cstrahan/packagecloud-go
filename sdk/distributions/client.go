@@ -42,7 +42,7 @@ func NewClient(options *core.RequestOptions) *Client {
 func (c *Client) Index(
 	ctx context.Context,
 	opts ...option.RequestOption,
-) (map[string][]*packagecloud.Distribution, error) {
+) (packagecloud.Distributions, error) {
 	response, err := c.WithRawResponse.Index(
 		ctx,
 		opts...,

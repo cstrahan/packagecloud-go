@@ -364,11 +364,12 @@ func (g *GpgKey) String() string {
 	return fmt.Sprintf("%#v", g)
 }
 
+// A list of a repository's GPG keys, as returned by the gpg_keys index.
 var (
-	gpgKeysIndexResponseFieldGpgKeys = big.NewInt(1 << 0)
+	gpgKeyListFieldGpgKeys = big.NewInt(1 << 0)
 )
 
-type GpgKeysIndexResponse struct {
+type GpgKeyList struct {
 	GpgKeys []*GpgKey `json:"gpg_keys" url:"gpg_keys"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
@@ -378,21 +379,21 @@ type GpgKeysIndexResponse struct {
 	rawJSON         json.RawMessage
 }
 
-func (g *GpgKeysIndexResponse) GetGpgKeys() []*GpgKey {
+func (g *GpgKeyList) GetGpgKeys() []*GpgKey {
 	if g == nil {
 		return nil
 	}
 	return g.GpgKeys
 }
 
-func (g *GpgKeysIndexResponse) GetExtraProperties() map[string]interface{} {
+func (g *GpgKeyList) GetExtraProperties() map[string]interface{} {
 	if g == nil {
 		return nil
 	}
 	return g.extraProperties
 }
 
-func (g *GpgKeysIndexResponse) require(field *big.Int) {
+func (g *GpgKeyList) require(field *big.Int) {
 	if g.explicitFields == nil {
 		g.explicitFields = big.NewInt(0)
 	}
@@ -401,18 +402,18 @@ func (g *GpgKeysIndexResponse) require(field *big.Int) {
 
 // SetGpgKeys sets the GpgKeys field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GpgKeysIndexResponse) SetGpgKeys(gpgKeys []*GpgKey) {
+func (g *GpgKeyList) SetGpgKeys(gpgKeys []*GpgKey) {
 	g.GpgKeys = gpgKeys
-	g.require(gpgKeysIndexResponseFieldGpgKeys)
+	g.require(gpgKeyListFieldGpgKeys)
 }
 
-func (g *GpgKeysIndexResponse) UnmarshalJSON(data []byte) error {
-	type unmarshaler GpgKeysIndexResponse
+func (g *GpgKeyList) UnmarshalJSON(data []byte) error {
+	type unmarshaler GpgKeyList
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*g = GpgKeysIndexResponse(value)
+	*g = GpgKeyList(value)
 	extraProperties, err := internal.ExtractExtraProperties(data, *g)
 	if err != nil {
 		return err
@@ -422,8 +423,8 @@ func (g *GpgKeysIndexResponse) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (g *GpgKeysIndexResponse) MarshalJSON() ([]byte, error) {
-	type embed GpgKeysIndexResponse
+func (g *GpgKeyList) MarshalJSON() ([]byte, error) {
+	type embed GpgKeyList
 	var marshaler = struct {
 		embed
 	}{
@@ -433,7 +434,7 @@ func (g *GpgKeysIndexResponse) MarshalJSON() ([]byte, error) {
 	return json.Marshal(explicitMarshaler)
 }
 
-func (g *GpgKeysIndexResponse) String() string {
+func (g *GpgKeyList) String() string {
 	if g == nil {
 		return "<nil>"
 	}

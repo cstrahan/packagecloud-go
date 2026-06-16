@@ -35,7 +35,7 @@ func NewRawClient(options *core.RequestOptions) *RawClient {
 func (r *RawClient) Index(
 	ctx context.Context,
 	opts ...option.RequestOption,
-) (*core.Response[map[string][]*packagecloud.Distribution], error) {
+) (*core.Response[packagecloud.Distributions], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -47,7 +47,7 @@ func (r *RawClient) Index(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response map[string][]*packagecloud.Distribution
+	var response packagecloud.Distributions
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -65,7 +65,7 @@ func (r *RawClient) Index(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[map[string][]*packagecloud.Distribution]{
+	return &core.Response[packagecloud.Distributions]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,

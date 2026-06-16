@@ -864,9 +864,9 @@ func TestSettersMarkExplicitGpgKey(t *testing.T) {
 
 }
 
-func TestSettersGpgKeysIndexResponse(t *testing.T) {
+func TestSettersGpgKeyList(t *testing.T) {
 	t.Run("SetGpgKeys", func(t *testing.T) {
-		obj := &GpgKeysIndexResponse{}
+		obj := &GpgKeyList{}
 		var fernTestValueGpgKeys []*GpgKey
 		obj.SetGpgKeys(fernTestValueGpgKeys)
 		assert.Equal(t, fernTestValueGpgKeys, obj.GpgKeys)
@@ -875,11 +875,11 @@ func TestSettersGpgKeysIndexResponse(t *testing.T) {
 
 }
 
-func TestGettersGpgKeysIndexResponse(t *testing.T) {
+func TestGettersGpgKeyList(t *testing.T) {
 	t.Run("GetGpgKeys", func(t *testing.T) {
 		t.Parallel()
 		// Arrange
-		obj := &GpgKeysIndexResponse{}
+		obj := &GpgKeyList{}
 		var expected []*GpgKey
 		obj.GpgKeys = expected
 
@@ -890,7 +890,7 @@ func TestGettersGpgKeysIndexResponse(t *testing.T) {
 	t.Run("GetGpgKeys_NilValue", func(t *testing.T) {
 		t.Parallel()
 		// Arrange
-		obj := &GpgKeysIndexResponse{}
+		obj := &GpgKeyList{}
 		obj.GpgKeys = nil
 
 		// Act & Assert
@@ -899,7 +899,7 @@ func TestGettersGpgKeysIndexResponse(t *testing.T) {
 
 	t.Run("GetGpgKeys_NilReceiver", func(t *testing.T) {
 		t.Parallel()
-		var obj *GpgKeysIndexResponse
+		var obj *GpgKeyList
 		// Should not panic - getters should handle nil receiver gracefully
 		defer func() {
 			if r := recover(); r != nil {
@@ -911,11 +911,11 @@ func TestGettersGpgKeysIndexResponse(t *testing.T) {
 
 }
 
-func TestSettersMarkExplicitGpgKeysIndexResponse(t *testing.T) {
+func TestSettersMarkExplicitGpgKeyList(t *testing.T) {
 	t.Run("SetGpgKeys_MarksExplicit", func(t *testing.T) {
 		t.Parallel()
 		// Arrange
-		obj := &GpgKeysIndexResponse{}
+		obj := &GpgKeyList{}
 		var fernTestValueGpgKeys []*GpgKey
 
 		// Act
@@ -978,11 +978,11 @@ func TestJSONMarshalingGpgKey(t *testing.T) {
 	})
 }
 
-func TestJSONMarshalingGpgKeysIndexResponse(t *testing.T) {
+func TestJSONMarshalingGpgKeyList(t *testing.T) {
 	t.Run("MarshalUnmarshal", func(t *testing.T) {
 		t.Parallel()
 		// Arrange
-		obj := &GpgKeysIndexResponse{}
+		obj := &GpgKeyList{}
 
 		// Act - Marshal to JSON
 		data, err := json.Marshal(obj)
@@ -991,21 +991,21 @@ func TestJSONMarshalingGpgKeysIndexResponse(t *testing.T) {
 		assert.NotEmpty(t, data, "marshaled data should not be empty")
 
 		// Unmarshal back and verify round-trip
-		var unmarshaled GpgKeysIndexResponse
+		var unmarshaled GpgKeyList
 		err = json.Unmarshal(data, &unmarshaled)
 		assert.NoError(t, err, "round-trip unmarshal should succeed")
 	})
 
 	t.Run("UnmarshalInvalidJSON", func(t *testing.T) {
 		t.Parallel()
-		var obj GpgKeysIndexResponse
+		var obj GpgKeyList
 		err := json.Unmarshal([]byte(`{invalid json}`), &obj)
 		assert.Error(t, err, "unmarshaling invalid JSON should return an error")
 	})
 
 	t.Run("UnmarshalEmptyObject", func(t *testing.T) {
 		t.Parallel()
-		var obj GpgKeysIndexResponse
+		var obj GpgKeyList
 		err := json.Unmarshal([]byte(`{}`), &obj)
 		assert.NoError(t, err, "unmarshaling empty object should succeed")
 	})
@@ -1027,17 +1027,17 @@ func TestStringGpgKey(t *testing.T) {
 	})
 }
 
-func TestStringGpgKeysIndexResponse(t *testing.T) {
+func TestStringGpgKeyList(t *testing.T) {
 	t.Run("StringMethod", func(t *testing.T) {
 		t.Parallel()
-		obj := &GpgKeysIndexResponse{}
+		obj := &GpgKeyList{}
 		result := obj.String()
 		assert.NotEmpty(t, result, "String() should return a non-empty representation")
 	})
 
 	t.Run("StringMethod_NilReceiver", func(t *testing.T) {
 		t.Parallel()
-		var obj *GpgKeysIndexResponse
+		var obj *GpgKeyList
 		result := obj.String()
 		assert.Equal(t, "<nil>", result, "String() should return <nil> for nil receiver")
 	})
@@ -1066,10 +1066,10 @@ func TestExtraPropertiesGpgKey(t *testing.T) {
 	})
 }
 
-func TestExtraPropertiesGpgKeysIndexResponse(t *testing.T) {
+func TestExtraPropertiesGpgKeyList(t *testing.T) {
 	t.Run("GetExtraProperties", func(t *testing.T) {
 		t.Parallel()
-		obj := &GpgKeysIndexResponse{}
+		obj := &GpgKeyList{}
 		// Should not panic when calling GetExtraProperties()
 		defer func() {
 			if r := recover(); r != nil {
@@ -1083,7 +1083,7 @@ func TestExtraPropertiesGpgKeysIndexResponse(t *testing.T) {
 
 	t.Run("GetExtraProperties_NilReceiver", func(t *testing.T) {
 		t.Parallel()
-		var obj *GpgKeysIndexResponse
+		var obj *GpgKeyList
 		extraProps := obj.GetExtraProperties()
 		assert.Nil(t, extraProps, "nil receiver should return nil without panicking")
 	})

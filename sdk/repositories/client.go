@@ -69,7 +69,7 @@ func (c *Client) Create(
 	ctx context.Context,
 	request *packagecloud.RepositoriesCreateRequest,
 	opts ...option.RequestOption,
-) (*packagecloud.RepositoriesCreateResponse, error) {
+) (*packagecloud.RepositoryCreated, error) {
 	response, err := c.WithRawResponse.Create(
 		ctx,
 		request,

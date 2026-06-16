@@ -36,7 +36,7 @@ func (r *RawClient) Index(
 	ctx context.Context,
 	request *packagecloud.GpgKeysIndexRequest,
 	opts ...option.RequestOption,
-) (*core.Response[*packagecloud.GpgKeysIndexResponse], error) {
+) (*core.Response[*packagecloud.GpgKeyList], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -52,7 +52,7 @@ func (r *RawClient) Index(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response *packagecloud.GpgKeysIndexResponse
+	var response *packagecloud.GpgKeyList
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -70,7 +70,7 @@ func (r *RawClient) Index(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*packagecloud.GpgKeysIndexResponse]{
+	return &core.Response[*packagecloud.GpgKeyList]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,

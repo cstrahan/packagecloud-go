@@ -362,11 +362,12 @@ func (r *ReadToken) String() string {
 	return fmt.Sprintf("%#v", r)
 }
 
+// A list of a master token's read tokens, as returned by the read_tokens index.
 var (
-	readTokensIndexResponseFieldReadTokens = big.NewInt(1 << 0)
+	readTokenListFieldReadTokens = big.NewInt(1 << 0)
 )
 
-type ReadTokensIndexResponse struct {
+type ReadTokenList struct {
 	ReadTokens []*ReadToken `json:"read_tokens" url:"read_tokens"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
@@ -376,21 +377,21 @@ type ReadTokensIndexResponse struct {
 	rawJSON         json.RawMessage
 }
 
-func (r *ReadTokensIndexResponse) GetReadTokens() []*ReadToken {
+func (r *ReadTokenList) GetReadTokens() []*ReadToken {
 	if r == nil {
 		return nil
 	}
 	return r.ReadTokens
 }
 
-func (r *ReadTokensIndexResponse) GetExtraProperties() map[string]interface{} {
+func (r *ReadTokenList) GetExtraProperties() map[string]interface{} {
 	if r == nil {
 		return nil
 	}
 	return r.extraProperties
 }
 
-func (r *ReadTokensIndexResponse) require(field *big.Int) {
+func (r *ReadTokenList) require(field *big.Int) {
 	if r.explicitFields == nil {
 		r.explicitFields = big.NewInt(0)
 	}
@@ -399,18 +400,18 @@ func (r *ReadTokensIndexResponse) require(field *big.Int) {
 
 // SetReadTokens sets the ReadTokens field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (r *ReadTokensIndexResponse) SetReadTokens(readTokens []*ReadToken) {
+func (r *ReadTokenList) SetReadTokens(readTokens []*ReadToken) {
 	r.ReadTokens = readTokens
-	r.require(readTokensIndexResponseFieldReadTokens)
+	r.require(readTokenListFieldReadTokens)
 }
 
-func (r *ReadTokensIndexResponse) UnmarshalJSON(data []byte) error {
-	type unmarshaler ReadTokensIndexResponse
+func (r *ReadTokenList) UnmarshalJSON(data []byte) error {
+	type unmarshaler ReadTokenList
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*r = ReadTokensIndexResponse(value)
+	*r = ReadTokenList(value)
 	extraProperties, err := internal.ExtractExtraProperties(data, *r)
 	if err != nil {
 		return err
@@ -420,8 +421,8 @@ func (r *ReadTokensIndexResponse) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (r *ReadTokensIndexResponse) MarshalJSON() ([]byte, error) {
-	type embed ReadTokensIndexResponse
+func (r *ReadTokenList) MarshalJSON() ([]byte, error) {
+	type embed ReadTokenList
 	var marshaler = struct {
 		embed
 	}{
@@ -431,7 +432,7 @@ func (r *ReadTokensIndexResponse) MarshalJSON() ([]byte, error) {
 	return json.Marshal(explicitMarshaler)
 }
 
-func (r *ReadTokensIndexResponse) String() string {
+func (r *ReadTokenList) String() string {
 	if r == nil {
 		return "<nil>"
 	}

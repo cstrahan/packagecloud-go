@@ -394,6 +394,92 @@ func (r *Repository) String() string {
 	return fmt.Sprintf("%#v", r)
 }
 
+// The result of creating a repository — the API URL of the new repo.
+var (
+	repositoryCreatedFieldURL = big.NewInt(1 << 0)
+)
+
+type RepositoryCreated struct {
+	// The API URL of the newly created repository.
+	URL string `json:"url" url:"url"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (r *RepositoryCreated) GetURL() string {
+	if r == nil {
+		return ""
+	}
+	return r.URL
+}
+
+func (r *RepositoryCreated) GetExtraProperties() map[string]interface{} {
+	if r == nil {
+		return nil
+	}
+	return r.extraProperties
+}
+
+func (r *RepositoryCreated) require(field *big.Int) {
+	if r.explicitFields == nil {
+		r.explicitFields = big.NewInt(0)
+	}
+	r.explicitFields.Or(r.explicitFields, field)
+}
+
+// SetURL sets the URL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (r *RepositoryCreated) SetURL(url string) {
+	r.URL = url
+	r.require(repositoryCreatedFieldURL)
+}
+
+func (r *RepositoryCreated) UnmarshalJSON(data []byte) error {
+	type unmarshaler RepositoryCreated
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = RepositoryCreated(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+	r.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *RepositoryCreated) MarshalJSON() ([]byte, error) {
+	type embed RepositoryCreated
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*r),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, r.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (r *RepositoryCreated) String() string {
+	if r == nil {
+		return "<nil>"
+	}
+	if len(r.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(r.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
+}
+
 var (
 	repositoriesCreateRequestRepositoryFieldName    = big.NewInt(1 << 0)
 	repositoriesCreateRequestRepositoryFieldPrivate = big.NewInt(1 << 1)
@@ -480,90 +566,6 @@ func (r *RepositoriesCreateRequestRepository) MarshalJSON() ([]byte, error) {
 }
 
 func (r *RepositoriesCreateRequestRepository) String() string {
-	if r == nil {
-		return "<nil>"
-	}
-	if len(r.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(r.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(r); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", r)
-}
-
-var (
-	repositoriesCreateResponseFieldURL = big.NewInt(1 << 0)
-)
-
-type RepositoriesCreateResponse struct {
-	URL *string `json:"url,omitempty" url:"url,omitempty"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (r *RepositoriesCreateResponse) GetURL() *string {
-	if r == nil {
-		return nil
-	}
-	return r.URL
-}
-
-func (r *RepositoriesCreateResponse) GetExtraProperties() map[string]interface{} {
-	if r == nil {
-		return nil
-	}
-	return r.extraProperties
-}
-
-func (r *RepositoriesCreateResponse) require(field *big.Int) {
-	if r.explicitFields == nil {
-		r.explicitFields = big.NewInt(0)
-	}
-	r.explicitFields.Or(r.explicitFields, field)
-}
-
-// SetURL sets the URL field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (r *RepositoriesCreateResponse) SetURL(url *string) {
-	r.URL = url
-	r.require(repositoriesCreateResponseFieldURL)
-}
-
-func (r *RepositoriesCreateResponse) UnmarshalJSON(data []byte) error {
-	type unmarshaler RepositoriesCreateResponse
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*r = RepositoriesCreateResponse(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *r)
-	if err != nil {
-		return err
-	}
-	r.extraProperties = extraProperties
-	r.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (r *RepositoriesCreateResponse) MarshalJSON() ([]byte, error) {
-	type embed RepositoriesCreateResponse
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*r),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, r.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (r *RepositoriesCreateResponse) String() string {
 	if r == nil {
 		return "<nil>"
 	}

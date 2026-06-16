@@ -84,7 +84,7 @@ func (r *RawClient) Create(
 	ctx context.Context,
 	request *packagecloud.RepositoriesCreateRequest,
 	opts ...option.RequestOption,
-) (*core.Response[*packagecloud.RepositoriesCreateResponse], error) {
+) (*core.Response[*packagecloud.RepositoryCreated], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -97,7 +97,7 @@ func (r *RawClient) Create(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response *packagecloud.RepositoriesCreateResponse
+	var response *packagecloud.RepositoryCreated
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -116,7 +116,7 @@ func (r *RawClient) Create(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*packagecloud.RepositoriesCreateResponse]{
+	return &core.Response[*packagecloud.RepositoryCreated]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,

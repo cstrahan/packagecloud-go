@@ -45,7 +45,7 @@ func (c *Client) Index(
 	ctx context.Context,
 	request *packagecloud.GpgKeysIndexRequest,
 	opts ...option.RequestOption,
-) (*packagecloud.GpgKeysIndexResponse, error) {
+) (*packagecloud.GpgKeyList, error) {
 	response, err := c.WithRawResponse.Index(
 		ctx,
 		request,

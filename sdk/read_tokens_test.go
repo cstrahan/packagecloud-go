@@ -843,9 +843,9 @@ func TestSettersMarkExplicitReadToken(t *testing.T) {
 
 }
 
-func TestSettersReadTokensIndexResponse(t *testing.T) {
+func TestSettersReadTokenList(t *testing.T) {
 	t.Run("SetReadTokens", func(t *testing.T) {
-		obj := &ReadTokensIndexResponse{}
+		obj := &ReadTokenList{}
 		var fernTestValueReadTokens []*ReadToken
 		obj.SetReadTokens(fernTestValueReadTokens)
 		assert.Equal(t, fernTestValueReadTokens, obj.ReadTokens)
@@ -854,11 +854,11 @@ func TestSettersReadTokensIndexResponse(t *testing.T) {
 
 }
 
-func TestGettersReadTokensIndexResponse(t *testing.T) {
+func TestGettersReadTokenList(t *testing.T) {
 	t.Run("GetReadTokens", func(t *testing.T) {
 		t.Parallel()
 		// Arrange
-		obj := &ReadTokensIndexResponse{}
+		obj := &ReadTokenList{}
 		var expected []*ReadToken
 		obj.ReadTokens = expected
 
@@ -869,7 +869,7 @@ func TestGettersReadTokensIndexResponse(t *testing.T) {
 	t.Run("GetReadTokens_NilValue", func(t *testing.T) {
 		t.Parallel()
 		// Arrange
-		obj := &ReadTokensIndexResponse{}
+		obj := &ReadTokenList{}
 		obj.ReadTokens = nil
 
 		// Act & Assert
@@ -878,7 +878,7 @@ func TestGettersReadTokensIndexResponse(t *testing.T) {
 
 	t.Run("GetReadTokens_NilReceiver", func(t *testing.T) {
 		t.Parallel()
-		var obj *ReadTokensIndexResponse
+		var obj *ReadTokenList
 		// Should not panic - getters should handle nil receiver gracefully
 		defer func() {
 			if r := recover(); r != nil {
@@ -890,11 +890,11 @@ func TestGettersReadTokensIndexResponse(t *testing.T) {
 
 }
 
-func TestSettersMarkExplicitReadTokensIndexResponse(t *testing.T) {
+func TestSettersMarkExplicitReadTokenList(t *testing.T) {
 	t.Run("SetReadTokens_MarksExplicit", func(t *testing.T) {
 		t.Parallel()
 		// Arrange
-		obj := &ReadTokensIndexResponse{}
+		obj := &ReadTokenList{}
 		var fernTestValueReadTokens []*ReadToken
 
 		// Act
@@ -957,11 +957,11 @@ func TestJSONMarshalingReadToken(t *testing.T) {
 	})
 }
 
-func TestJSONMarshalingReadTokensIndexResponse(t *testing.T) {
+func TestJSONMarshalingReadTokenList(t *testing.T) {
 	t.Run("MarshalUnmarshal", func(t *testing.T) {
 		t.Parallel()
 		// Arrange
-		obj := &ReadTokensIndexResponse{}
+		obj := &ReadTokenList{}
 
 		// Act - Marshal to JSON
 		data, err := json.Marshal(obj)
@@ -970,21 +970,21 @@ func TestJSONMarshalingReadTokensIndexResponse(t *testing.T) {
 		assert.NotEmpty(t, data, "marshaled data should not be empty")
 
 		// Unmarshal back and verify round-trip
-		var unmarshaled ReadTokensIndexResponse
+		var unmarshaled ReadTokenList
 		err = json.Unmarshal(data, &unmarshaled)
 		assert.NoError(t, err, "round-trip unmarshal should succeed")
 	})
 
 	t.Run("UnmarshalInvalidJSON", func(t *testing.T) {
 		t.Parallel()
-		var obj ReadTokensIndexResponse
+		var obj ReadTokenList
 		err := json.Unmarshal([]byte(`{invalid json}`), &obj)
 		assert.Error(t, err, "unmarshaling invalid JSON should return an error")
 	})
 
 	t.Run("UnmarshalEmptyObject", func(t *testing.T) {
 		t.Parallel()
-		var obj ReadTokensIndexResponse
+		var obj ReadTokenList
 		err := json.Unmarshal([]byte(`{}`), &obj)
 		assert.NoError(t, err, "unmarshaling empty object should succeed")
 	})
@@ -1006,17 +1006,17 @@ func TestStringReadToken(t *testing.T) {
 	})
 }
 
-func TestStringReadTokensIndexResponse(t *testing.T) {
+func TestStringReadTokenList(t *testing.T) {
 	t.Run("StringMethod", func(t *testing.T) {
 		t.Parallel()
-		obj := &ReadTokensIndexResponse{}
+		obj := &ReadTokenList{}
 		result := obj.String()
 		assert.NotEmpty(t, result, "String() should return a non-empty representation")
 	})
 
 	t.Run("StringMethod_NilReceiver", func(t *testing.T) {
 		t.Parallel()
-		var obj *ReadTokensIndexResponse
+		var obj *ReadTokenList
 		result := obj.String()
 		assert.Equal(t, "<nil>", result, "String() should return <nil> for nil receiver")
 	})
@@ -1045,10 +1045,10 @@ func TestExtraPropertiesReadToken(t *testing.T) {
 	})
 }
 
-func TestExtraPropertiesReadTokensIndexResponse(t *testing.T) {
+func TestExtraPropertiesReadTokenList(t *testing.T) {
 	t.Run("GetExtraProperties", func(t *testing.T) {
 		t.Parallel()
-		obj := &ReadTokensIndexResponse{}
+		obj := &ReadTokenList{}
 		// Should not panic when calling GetExtraProperties()
 		defer func() {
 			if r := recover(); r != nil {
@@ -1062,7 +1062,7 @@ func TestExtraPropertiesReadTokensIndexResponse(t *testing.T) {
 
 	t.Run("GetExtraProperties_NilReceiver", func(t *testing.T) {
 		t.Parallel()
-		var obj *ReadTokensIndexResponse
+		var obj *ReadTokenList
 		extraProps := obj.GetExtraProperties()
 		assert.Nil(t, extraProps, "nil receiver should return nil without panicking")
 	})
